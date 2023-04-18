@@ -1,6 +1,6 @@
 {
     "name": "unifiedapi-vuejs-directory",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "VueJS component for Unified.to's Integrations Directory",
     "author": "Unified API Inc.",
     "license": "ISC",
@@ -20,13 +20,13 @@
     "files": [
         "dist"
     ],
-    "main": "./dist/unifiedapi-vuejs-directory.umd.cjs",
-    "module": "./dist/unifiedapi-vuejs-directory.js",
+    "main": "./dist/UnifiedAPI-VueJS-Directory.umd.cjs",
+    "module": "./dist/UnifiedAPI-VueJS-Directory.js",
     "types": "./dist/main.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/unifiedapi-vuejs-directory.js",
-            "require": "./dist/unifiedapi-vuejs-directory.umd.js"
+            "import": "./dist/UnifiedAPI-VueJS-Directory.js",
+            "require": "./dist/UnifiedAPI-VueJS-Directory.umd.js"
         }
     },
     "scripts": {
