@@ -18,7 +18,7 @@
                     <div class="unified_vendor_name">{{ integration.name }}</div>
                     <div
                         class="unified_vendor_cats"
-                        v-for="cat of integration.categories.filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1)"
+                        v-for="cat of integration.categories.filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1).filter((c)=> CATEGORY_MAP[c])"
                         v-bind:key="cat"
                     >
                         <span>{{ cat }}</span>
@@ -68,7 +68,7 @@ export default defineComponent({
                 crm: 'CRM',
                 martech: 'Marketing Tech',
                 ticketing: 'Support Tickets',
-                auth: 'Authentication',
+                // auth: 'Authentication',
                 uc: 'Unified Communications',
                 enrich: 'Enrichment',
                 ats: 'Applicant Tracking System',

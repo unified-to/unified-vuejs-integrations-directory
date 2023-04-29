@@ -1,6 +1,6 @@
 {
     "name": "unifiedapi-vuejs-directory",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "description": "VueJS component for Unified.to's Integrations Directory",
     "author": "Unified API Inc.",
     "license": "ISC",
@@ -34,7 +34,8 @@
         "dev": "vite",
         "preview": "vite preview",
         "build-only": "vite build",
-        "type-check": "vue-tsc --noEmit"
+        "type-check": "vue-tsc --noEmit",
+        "publish": "npm publish"
     },
     "peerDependencies": {
         "vue": "^3.2.47"
