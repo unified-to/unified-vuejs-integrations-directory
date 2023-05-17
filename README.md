@@ -11,19 +11,19 @@
 Using NPM:
 
 ```bash
-$ npm install unifiedapi-vuejs-directory
+$ npm install @unified-api/vuejs-directory
 ```
 
 Using yarn:
 
 ```bash
-$ yarn add unifiedapi-vuejs-directory
+$ yarn add @unified-api/vuejs-directory
 ```
 
 Once the package is installed, you can import the component using `import`
 
 ```ts
-import UnifiedDirectory from 'unifiedapi-vuejs-directory';
+import UnifiedDirectory from '@unified-api/vuejs-directory';
 ```
 
 ## Example
@@ -34,7 +34,7 @@ import UnifiedDirectory from 'unifiedapi-vuejs-directory';
 </template>
 
 <script lang="ts">
-import UnifiedDirectory from 'unifiedapi-vuejs-directory';
+import UnifiedDirectory from '@unified-api/vuejs-directory';
 
 export default {
     components: {

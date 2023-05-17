@@ -18,7 +18,7 @@
                     <div class="unified_vendor_name">{{ integration.name }}</div>
                     <div
                         class="unified_vendor_cats"
-                        v-for="cat of integration.categories.filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1).filter((c)=> CATEGORY_MAP[c])"
+                        v-for="cat of integration.categories.filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1).filter((c) => CATEGORY_MAP[c])"
                         v-bind:key="cat"
                     >
                         <span>{{ cat }}</span>
@@ -50,12 +50,16 @@ export default defineComponent({
         success_redirect: String,
         failure_redirect: String,
         nostyle: Boolean,
+        environment: String,
     },
     watch: {
         async workspaceId() {
             await this.setup();
         },
         async categories() {
+            await this.setup();
+        },
+        async environment() {
             await this.setup();
         },
     },
@@ -92,6 +96,9 @@ export default defineComponent({
             if (this.scopes?.length) {
                 url += `&scopes=${encodeURIComponent(this.scopes.join(','))}`;
             }
+            if (this.environment && this.environment !== 'Production') {
+                url += `&env=${encodeURIComponent(this.environment)}`;
+            }
             // if (this.success_redirect) {
             url += `&success_redirect=${encodeURIComponent(this.success_redirect || window.location.href)}`;
             // }
@@ -121,7 +128,7 @@ export default defineComponent({
             this.selectedCategory = undefined;
             const url = `${API_URL}/unified/integration/workspace/${this.workspaceId}?summary=1${
                 this.categories?.length ? '&categories=' + this.categories.join(',') : ''
-            }`;
+            }${this.environment === 'Production' || !this.environment ? '' : '&env=' + encodeURIComponent(this.environment)}`;
 
             this.INTEGRATIONS = ((await this.load_data(url)) || []) as IIntegration[];
 
