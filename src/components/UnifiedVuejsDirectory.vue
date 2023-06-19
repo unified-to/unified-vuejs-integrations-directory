@@ -8,7 +8,7 @@
                 :class="`unified_button unified_button_${cat} ${selectedCategory === cat ? 'active' : ''}`"
                 @click="unified_select_category(cat)"
             >
-                {{ CATEGORY_MAP[cat] }}
+                {{ CATEGORY_MAP[cat as TIntegrationCategoryType] }}
             </button>
         </div>
         <div class="unified_vendors">
@@ -19,10 +19,10 @@
                     <div
                         v-if="!nocategories"
                         class="unified_vendor_cats"
-                        v-for="cat of integration.categories.filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1).filter((c) => CATEGORY_MAP[c])"
+                        v-for="cat of integration.categories.filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1).filter((c) => CATEGORY_MAP[c as TIntegrationCategoryType])"
                         v-bind:key="cat"
                     >
-                        <span>{{ CATEGORY_MAP[cat] }}</span>
+                        <span>{{ CATEGORY_MAP[cat as TIntegrationCategoryType] }}</span>
                     </div>
                 </div>
             </a>
@@ -36,6 +36,8 @@ import { IIntegration, TIntegrationCategory } from '../models/Unified';
 import { PropType, defineComponent } from 'vue';
 
 const API_URL = 'https://api.unified.to';
+
+type TIntegrationCategoryType = Exclude<TIntegrationCategory, 'auth' | 'passthrough'>;
 
 export default defineComponent({
     name: 'IntegrationsDirectory',
@@ -88,12 +90,11 @@ export default defineComponent({
                 crm: 'CRM',
                 martech: 'Marketing',
                 ticketing: 'Ticketing',
-                // auth: 'Authentication',
                 uc: 'Unified Communications',
                 enrich: 'Enrichment',
                 ats: 'ATS',
                 hris: 'HR',
-            } as { [path in string]: string },
+            } as { [path in TIntegrationCategoryType]: string },
         };
     },
     methods: {
@@ -155,7 +156,7 @@ export default defineComponent({
             this.CATEGORIES = [];
             this.INTEGRATIONS.forEach((integration) => {
                 integration.categories?.forEach((c) => {
-                    if (this.CATEGORY_MAP[c] && (!this.categories?.length || this.categories.includes(c))) {
+                    if (this.CATEGORY_MAP[c as TIntegrationCategoryType] && (!this.categories?.length || this.categories.includes(c))) {
                         this.CATEGORIES.push(c);
                     }
                 });
