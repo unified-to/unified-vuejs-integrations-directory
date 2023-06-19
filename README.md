@@ -26,6 +26,28 @@ Once the package is installed, you can import the component using `import`
 import UnifiedDirectory from '@unified-api/vuejs-directory';
 ```
 
+## Props
+
+```js
+{
+    workspace_id: {
+        type: String,
+        required: true,
+    },
+    categories: Array as PropType<string[]>,
+    external_xref: String,
+    state: String,
+    scopes: Array as PropType<string[]>,
+    success_redirect: String,
+    failure_redirect: String,
+    nostyle: Boolean,
+    environment: String,
+    lang: String,
+    nocategories: Boolean,
+    notabs: Boolean,
+}
+```
+
 ## Example
 
 ```vue

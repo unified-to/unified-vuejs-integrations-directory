@@ -1,6 +1,6 @@
 <template>
     <div class="unified">
-        <div class="unified_menu" v-if="CATEGORIES.length > 0 && filter(INTEGRATIONS).length">
+        <div class="unified_menu" v-if="!notabs && CATEGORIES.length > 0 && filter(INTEGRATIONS).length">
             <button class="unified_button unified_button_all" :class="selectedCategory ? '' : 'active'" @click="unified_select_category()">All</button>
             <button
                 v-for="cat of CATEGORIES"
@@ -17,11 +17,12 @@
                 <div class="unified_vendor_inner">
                     <div class="unified_vendor_name">{{ integration.name }}</div>
                     <div
+                        v-if="!nocategories"
                         class="unified_vendor_cats"
                         v-for="cat of integration.categories.filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1).filter((c) => CATEGORY_MAP[c])"
                         v-bind:key="cat"
                     >
-                        <span>{{ cat }}</span>
+                        <span>{{ CATEGORY_MAP[cat] }}</span>
                     </div>
                 </div>
             </a>
@@ -39,7 +40,7 @@ const API_URL = 'https://api.unified.to';
 export default defineComponent({
     name: 'IntegrationsDirectory',
     props: {
-        workspaceId: {
+        workspace_id: {
             type: String,
             required: true,
         },
@@ -51,15 +52,30 @@ export default defineComponent({
         failure_redirect: String,
         nostyle: Boolean,
         environment: String,
+        lang: String,
+        nocategories: Boolean,
+        notabs: Boolean,
     },
     watch: {
         async workspaceId() {
             await this.setup();
         },
-        async categories() {
+        async 'categories.length'() {
             await this.setup();
         },
         async environment() {
+            await this.setup();
+        },
+        async lang() {
+            await this.setup();
+        },
+        async 'scopes.length'() {
+            await this.setup();
+        },
+        async state() {
+            await this.setup();
+        },
+        async external_xref() {
             await this.setup();
         },
     },
@@ -70,13 +86,13 @@ export default defineComponent({
             CATEGORIES: [] as TIntegrationCategory[],
             CATEGORY_MAP: {
                 crm: 'CRM',
-                martech: 'Marketing Tech',
-                ticketing: 'Support Tickets',
+                martech: 'Marketing',
+                ticketing: 'Ticketing',
                 // auth: 'Authentication',
                 uc: 'Unified Communications',
                 enrich: 'Enrichment',
-                ats: 'Applicant Tracking System',
-                hris: 'HR Information System',
+                ats: 'ATS',
+                hris: 'HR',
             } as { [path in string]: string },
         };
     },
@@ -85,7 +101,7 @@ export default defineComponent({
             return integrations?.filter((integration) => !this.selectedCategory || integration.categories.includes(this.selectedCategory)) || [];
         },
         unified_get_auth_url(integration: IIntegration) {
-            let url = `${API_URL}/unified/integration/auth/${this.workspaceId}/${integration.type}?redirect=1`;
+            let url = `${API_URL}/unified/integration/auth/${this.workspace_id}/${integration.type}?redirect=1`;
 
             if (this.external_xref) {
                 url += `&user_xref=${encodeURIComponent(this.external_xref)}`;
@@ -99,6 +115,10 @@ export default defineComponent({
             if (this.environment && this.environment !== 'Production') {
                 url += `&env=${encodeURIComponent(this.environment)}`;
             }
+            if (this.lang) {
+                url += `&lang=${this.lang}`;
+            }
+
             // if (this.success_redirect) {
             url += `&success_redirect=${encodeURIComponent(this.success_redirect || window.location.href)}`;
             // }
@@ -126,7 +146,7 @@ export default defineComponent({
 
         async setup() {
             this.selectedCategory = undefined;
-            const url = `${API_URL}/unified/integration/workspace/${this.workspaceId}?summary=1${
+            const url = `${API_URL}/unified/integration/workspace/${this.workspace_id}?summary=1${
                 this.categories?.length ? '&categories=' + this.categories.join(',') : ''
             }${this.environment === 'Production' || !this.environment ? '' : '&env=' + encodeURIComponent(this.environment)}`;
 
