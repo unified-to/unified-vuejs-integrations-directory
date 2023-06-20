@@ -1,6 +1,6 @@
 {
     "name": "@unified-api/vuejs-directory",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "VueJS component for Unified.to's Integrations Directory",
     "author": "Unified API Inc.",
     "license": "ISC",
