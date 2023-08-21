@@ -35,7 +35,8 @@
 import { IIntegration, TIntegrationCategory } from '../models/Unified';
 import { PropType, defineComponent } from 'vue';
 
-const API_URL = 'https://api.unified.to';
+const API_NA_URL = 'https://api.unified.to';
+const API_EU_URL = 'https://api-eu.unified.to';
 
 type TIntegrationCategoryType = Exclude<TIntegrationCategory, 'auth' | 'passthrough'>;
 
@@ -45,18 +46,19 @@ export default defineComponent({
         workspace_id: {
             type: String,
             required: true,
-        },
-        categories: Array as PropType<string[]>,
-        external_xref: String,
-        state: String,
-        scopes: Array as PropType<string[]>,
-        success_redirect: String,
-        failure_redirect: String,
-        nostyle: Boolean,
-        environment: String,
-        lang: String,
-        nocategories: Boolean,
-        notabs: Boolean,
+        }, // your workspace_id found at https://app.unified.to/settings/api
+        categories: Array as PropType<string[]>, // An array of integration categories to limit the list of integrations (crm, ats, hr, uc,. ticketing, martech)
+        external_xref: String, // Your ID for the account/user that is signed into your application
+        state: String, // A state string that will be sent back to your success URL
+        scopes: Array as PropType<string[]>, // An array of Unified.to permission scopes to request from OAUTH2-based integrations found at https://unified.to/apidocs#unified_object_connection
+        success_redirect: String, // The URL where you want the user to be redirect to after a successful authentication. The Integration ID will be appended with (id=) to this URL, as will the state provided
+        failure_redirect: String, // The URL where you want the user to be redirect to after an unsuccessful or aborted authorization.  An 'error' variable will be appended.
+        nostyle: Boolean, // Do not include Unified.to's styles.  You must then define CSS styles for the embedded directory classes.
+        environment: String, // The development environment (Eg. Production, Sandbox, ...)
+        lang: String, // The language for the API Key authorization page.  (en, fr, es, it, pt, hi, zh)
+        notabs: Boolean, // Do not display tabs in the embedded directory
+        nocategories: Boolean, // Do not display category badges for each integration
+        dc: String, // data-region ('us'|'eu')
     },
     watch: {
         async workspaceId() {
@@ -83,6 +85,7 @@ export default defineComponent({
     },
     data() {
         return {
+            API_URL: this.dc === 'eu' ? API_EU_URL : API_NA_URL,
             INTEGRATIONS: [] as IIntegration[],
             selectedCategory: undefined as TIntegrationCategory | undefined,
             CATEGORIES: [] as TIntegrationCategory[],
@@ -102,7 +105,7 @@ export default defineComponent({
             return integrations?.filter((integration) => !this.selectedCategory || integration.categories.includes(this.selectedCategory)) || [];
         },
         unified_get_auth_url(integration: IIntegration) {
-            let url = `${API_URL}/unified/integration/auth/${this.workspace_id}/${integration.type}?redirect=1`;
+            let url = `${this.API_URL}/unified/integration/auth/${this.workspace_id}/${integration.type}?redirect=1`;
 
             if (this.external_xref) {
                 url += `&user_xref=${encodeURIComponent(this.external_xref)}`;
@@ -147,7 +150,7 @@ export default defineComponent({
 
         async setup() {
             this.selectedCategory = undefined;
-            const url = `${API_URL}/unified/integration/workspace/${this.workspace_id}?summary=1${
+            const url = `${this.API_URL}/unified/integration/workspace/${this.workspace_id}?summary=1${
                 this.categories?.length ? '&categories=' + this.categories.join(',') : ''
             }${this.environment === 'Production' || !this.environment ? '' : '&env=' + encodeURIComponent(this.environment)}`;
 
@@ -172,7 +175,7 @@ export default defineComponent({
 
             if (!this.nostyle) {
                 const link = document.createElement('link');
-                link.href = `${API_URL}/docs/unified.css`;
+                link.href = `${this.API_URL}/docs/unified.css`;
                 link.rel = 'stylesheet';
                 document.head.appendChild(link);
             }
