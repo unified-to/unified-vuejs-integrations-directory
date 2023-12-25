@@ -96,6 +96,8 @@ export default defineComponent({
                 uc: 'Unified Communications',
                 enrich: 'Enrichment',
                 ats: 'ATS',
+                storage: 'Storage',
+                accounting: 'Accounting',
                 hris: 'HR',
             } as { [path in TIntegrationCategoryType]: string },
         };
