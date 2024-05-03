@@ -99,7 +99,10 @@ export default defineComponent({
                 storage: 'Storage',
                 accounting: 'Accounting',
                 hris: 'HR',
-            } as { [path in TIntegrationCategoryType]: string },
+                commerce: 'Commerce',
+                payment: 'Payment',
+                genai: 'GenAI',
+            } as { [path in TIntegrationCategoryType]?: string },
         };
     },
     methods: {
