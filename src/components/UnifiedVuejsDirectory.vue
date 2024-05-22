@@ -99,7 +99,7 @@ export default defineComponent({
                 storage: 'Storage',
                 accounting: 'Accounting',
                 hris: 'HR',
-                payments: 'Payments',
+                payment: 'Payments',
                 commerce: 'E-Commerce',
                 genai: 'Generative AI',
                 messaging: 'Messaging',
