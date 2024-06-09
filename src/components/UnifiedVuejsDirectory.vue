@@ -104,6 +104,7 @@ export default defineComponent({
                 genai: 'Generative AI',
                 messaging: 'Messaging',
                 kms: 'KMS',
+                task: 'Tasks',
             } as { [path in TIntegrationCategoryType]?: string },
         };
     },
