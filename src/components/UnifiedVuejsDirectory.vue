@@ -40,10 +40,11 @@ const MAP_REGION = {
     us_beta: 'https://api-beta.unified.to',
     eu: 'https://api-eu.unified.to',
     eu_beta: 'https://api-eu-beta.unified.to',
+    au: 'https://api-au.unified.to',
     dev: 'https://api-dev.unified.to',
 } satisfies { [path in string]: string };
 
-type TIntegrationCategoryType = Exclude<TIntegrationCategory, 'auth' | 'passthrough' | 'scim'>;
+type TIntegrationCategoryType = Exclude<TIntegrationCategory, 'metadata' | 'auth' | 'passthrough' | 'scim'>;
 
 export default defineComponent({
     name: 'IntegrationsDirectory',
@@ -110,7 +111,7 @@ export default defineComponent({
                 messaging: 'Messaging',
                 kms: 'KMS',
                 task: 'Tasks',
-                metadata: 'Metadata',
+                // metadata: 'Metadata',
                 lms: 'LMS',
                 repo: 'Repository',
                 calendar: 'Calendar',
