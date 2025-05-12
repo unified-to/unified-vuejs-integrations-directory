@@ -113,6 +113,7 @@ export default defineComponent({
                 metadata: 'Metadata',
                 lms: 'LMS',
                 repo: 'Repository',
+                calendar: 'Calendar',
             } satisfies { [path in TIntegrationCategoryType]: string },
         };
     },
