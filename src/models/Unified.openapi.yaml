@@ -962,6 +962,12 @@ components:
           $ref: "#/components/schemas/SupportInboundType"
         native_webhook_shipment_id:
           $ref: "#/components/schemas/SupportInboundType"
+        list_label_id:
+          $ref: "#/components/schemas/SupportInboundType"
+        virtual_webhook_label_id:
+          $ref: "#/components/schemas/SupportInboundType"
+        native_webhook_label_id:
+          $ref: "#/components/schemas/SupportInboundType"
       required:
 
     Invoice:
