@@ -233,6 +233,8 @@ export const joiIntegrationPermission = Joi.string().valid(
 	'calendar_link_write',
 	'calendar_recording_read',
 	'calendar_recording_write',
+	'calendar_webinar_read',
+	'calendar_webinar_write',
 	'enrich_person_read',
 	'enrich_company_read',
 	'ads_ad_read',
@@ -376,6 +378,7 @@ export const joiObjectType = Joi.string().valid(
 	'calendar_busy',
 	'calendar_link',
 	'calendar_recording',
+	'calendar_webinar',
 	'ads_organization',
 	'ads_ad',
 	'ads_campaign',
@@ -640,6 +643,8 @@ export const joimap_IntegrationPermission_string = Joi.object({
 	calendar_link_write: Joi.string().allow(null, '').optional(),
 	calendar_recording_read: Joi.string().allow(null, '').optional(),
 	calendar_recording_write: Joi.string().allow(null, '').optional(),
+	calendar_webinar_read: Joi.string().allow(null, '').optional(),
+	calendar_webinar_write: Joi.string().allow(null, '').optional(),
 	enrich_person_read: Joi.string().allow(null, '').optional(),
 	enrich_company_read: Joi.string().allow(null, '').optional(),
 	ads_ad_read: Joi.string().allow(null, '').optional(),
@@ -687,6 +692,8 @@ export const joiApiCall = Joi.object({
 	webhook_id: Joi.string().allow(null).optional(),
 	is_billable: Joi.boolean().allow(null).optional(),
 	user_agent: Joi.string().allow(null, '').optional(),
+	unified_response_time: Joi.number().allow(null).optional(),
+	endapi_response_time: Joi.number().allow(null).optional(),
 }).label('ApiCall');
 
 export const joiConnectionAuth = Joi.object({
@@ -1094,5 +1101,10 @@ export const joiWorkspace = Joi.object({
 	hashicorp_vault_namespace: Joi.string().allow(null, '').optional(),
 	hashicorp_vault_kv_mount: Joi.string().allow(null, '').optional(),
 	hashicorp_vault_kv_version: Joi.string().allow(null, '').description('1 or 2').optional(),
+	grafana_apikey: Joi.string().allow(null, '').optional(),
+	grafana_site: Joi.string().allow(null, '').optional(),
+	clickhouse_url: Joi.string().uri().allow(null, '').optional(),
+	clickhouse_username: Joi.string().allow(null, '').optional(),
+	clickhouse_password: Joi.string().allow(null, '').optional(),
 }).label('Workspace').description('The User\'s workspace object. A workspace is like an organization that one or more users belong to.');
 
