@@ -18,24 +18,12 @@ declare const _default: import("vue").DefineComponent<{
     nocategories: BooleanConstructor;
     dc: StringConstructor;
 }, unknown, {
+    search: string;
     API_URL: string;
     INTEGRATIONS: IIntegration[];
-    selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | undefined;
-    CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai")[];
-    CATEGORY_MAP: {
-        hris?: string | undefined;
-        ats?: string | undefined;
-        crm?: string | undefined;
-        enrich?: string | undefined;
-        martech?: string | undefined;
-        ticketing?: string | undefined;
-        uc?: string | undefined;
-        accounting?: string | undefined;
-        storage?: string | undefined;
-        commerce?: string | undefined;
-        payment?: string | undefined;
-        genai?: string | undefined;
-    };
+    selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | undefined;
+    CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment")[];
+    CATEGORY_MAP: Record<"passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment", string>;
 }, {}, {
     filter(integrations: IIntegration[]): IIntegration[];
     unified_get_auth_url(integration: IIntegration): string;

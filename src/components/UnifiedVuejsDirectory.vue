@@ -11,6 +11,11 @@
                 {{ CATEGORY_MAP[cat as TIntegrationCategoryType] }}
             </button>
         </div>
+
+        <div style="margin-bottom: 16px">
+            <input type="search" class="unified_search" placeholder="Search..." v-model="search" style="width: 100%" />
+        </div>
+
         <div class="unified_vendors">
             <a v-for="integration of filter(INTEGRATIONS)" :href="unified_get_auth_url(integration)" v-bind:key="integration.type" class="unified_vendor">
                 <img :src="integration.logo_url" class="unified_image" />
@@ -19,7 +24,9 @@
                     <div
                         v-if="!nocategories"
                         class="unified_vendor_cats"
-                        v-for="cat of integration.categories.filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1).filter((c) => CATEGORY_MAP[c as TIntegrationCategoryType])"
+                        v-for="cat of integration.categories
+                            .filter((c) => !CATEGORIES || CATEGORIES.indexOf(c) > -1)
+                            .filter((c) => CATEGORY_MAP[c as TIntegrationCategoryType])"
                         v-bind:key="cat"
                     >
                         <span>{{ CATEGORY_MAP[cat as TIntegrationCategoryType] }}</span>
@@ -32,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { IIntegration, TIntegrationCategory } from '../models/Unified';
+import { CATEGORIES, IIntegration, TIntegrationCategory } from '../models/Unified';
 import { PropType, defineComponent } from 'vue';
 
 const MAP_REGION = {
@@ -42,7 +49,7 @@ const MAP_REGION = {
     eu_beta: 'https://api-eu-beta.unified.to',
     au: 'https://api-au.unified.to',
     dev: 'https://api-dev.unified.to',
-} satisfies { [path in string]: string };
+} as Record<string, string>;
 
 type TIntegrationCategoryType = Exclude<TIntegrationCategory, 'metadata' | 'auth' | 'passthrough' | 'scim'>;
 
@@ -67,6 +74,9 @@ export default defineComponent({
         dc: String, // data-region ('us'|'eu')
     },
     watch: {
+        // async search() {
+        //     await this.setup();
+        // },
         async workspaceId() {
             await this.setup();
         },
@@ -91,36 +101,31 @@ export default defineComponent({
     },
     data() {
         return {
+            search: '',
             API_URL: MAP_REGION[(this.dc as keyof typeof MAP_REGION) || 'us'] || MAP_REGION['us'],
             INTEGRATIONS: [] as IIntegration[],
             selectedCategory: undefined as TIntegrationCategory | undefined,
             CATEGORIES: [] as TIntegrationCategory[],
-            CATEGORY_MAP: {
-                crm: 'CRM',
-                martech: 'Marketing',
-                ticketing: 'Ticketing',
-                uc: 'Unified Communications',
-                enrich: 'Enrichment',
-                ats: 'ATS',
-                storage: 'Storage',
-                accounting: 'Accounting',
-                hris: 'HR',
-                payment: 'Payments',
-                commerce: 'E-Commerce',
-                genai: 'Generative AI',
-                messaging: 'Messaging',
-                kms: 'KMS',
-                task: 'Tasks',
-                // metadata: 'Metadata',
-                lms: 'LMS',
-                repo: 'Repository',
-                calendar: 'Calendar',
-            } satisfies { [path in TIntegrationCategoryType]: string },
+            CATEGORY_MAP: CATEGORIES.reduce(
+                (acc, category) => {
+                    acc[category.category] = category.label;
+                    return acc;
+                },
+                {} as Record<TIntegrationCategory, string>
+            ),
         };
     },
     methods: {
         filter(integrations: IIntegration[]) {
-            return integrations?.filter((integration) => !this.selectedCategory || integration.categories.includes(this.selectedCategory)) || [];
+            const search = this.search.toLowerCase();
+            console.log('filter', search);
+            return (
+                integrations?.filter(
+                    (integration) =>
+                        (!this.selectedCategory || integration.categories.includes(this.selectedCategory)) &&
+                        (!search || integration.name.toLowerCase().includes(search) || integration.type.toLowerCase().includes(search))
+                ) || []
+            );
         },
         unified_get_auth_url(integration: IIntegration) {
             let url = `${this.API_URL}/unified/integration/auth/${this.workspace_id}/${integration.type}?redirect=1`;

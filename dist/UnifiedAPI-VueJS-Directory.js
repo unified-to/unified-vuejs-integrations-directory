@@ -1,5 +1,35 @@
-import { defineComponent as g, openBlock as s, createElementBlock as o, createElementVNode as d, normalizeClass as p, Fragment as u, renderList as h, toDisplayString as f, createCommentVNode as _ } from "vue";
-const m = "https://api.unified.to", E = "https://api-eu.unified.to", C = g({
+import { defineComponent as m, openBlock as n, createElementBlock as a, createElementVNode as o, normalizeClass as f, Fragment as u, renderList as h, toDisplayString as g, createCommentVNode as p, withDirectives as _, vModelText as C } from "vue";
+const E = [
+  { category: "crm", label: "CRM" },
+  { category: "martech", label: "Marketing" },
+  { category: "uc", label: "Unified Communications" },
+  { category: "enrich", label: "Enrichment" },
+  { category: "ats", label: "ATS" },
+  { category: "storage", label: "File Storage" },
+  { category: "accounting", label: "Accounting" },
+  { category: "hris", label: "HR & Directory" },
+  { category: "payment", label: "Payments" },
+  { category: "commerce", label: "E-Commerce" },
+  { category: "genai", label: "Generative AI" },
+  { category: "messaging", label: "Messaging" },
+  { category: "kms", label: "Knowledge Management" },
+  { category: "task", label: "Tasks" },
+  { category: "lms", label: "Learning Management" },
+  { category: "repo", label: "Code Repositories" },
+  { category: "calendar", label: "Calendar & Meetings" },
+  { category: "shipping", label: "Shipping" },
+  { category: "forms", label: "Forms" },
+  { category: "assessment", label: "Assessments" },
+  { category: "ads", label: "Advertising" },
+  { category: "verification", label: "Verifications" }
+], y = {
+  us: "https://api.unified.to",
+  us_beta: "https://api-beta.unified.to",
+  eu: "https://api-eu.unified.to",
+  eu_beta: "https://api-eu-beta.unified.to",
+  au: "https://api-au.unified.to",
+  dev: "https://api-dev.unified.to"
+}, A = m({
   name: "IntegrationsDirectory",
   props: {
     workspace_id: {
@@ -33,6 +63,9 @@ const m = "https://api.unified.to", E = "https://api-eu.unified.to", C = g({
     // data-region ('us'|'eu')
   },
   watch: {
+    // async search() {
+    //     await this.setup();
+    // },
     async workspaceId() {
       await this.setup();
     },
@@ -57,34 +90,28 @@ const m = "https://api.unified.to", E = "https://api-eu.unified.to", C = g({
   },
   data() {
     return {
-      API_URL: this.dc === "eu" ? E : m,
+      search: "",
+      API_URL: y[this.dc || "us"] || y.us,
       INTEGRATIONS: [],
       selectedCategory: void 0,
       CATEGORIES: [],
-      CATEGORY_MAP: {
-        crm: "CRM",
-        martech: "Marketing",
-        ticketing: "Ticketing",
-        uc: "Unified Communications",
-        enrich: "Enrichment",
-        ats: "ATS",
-        storage: "Storage",
-        accounting: "Accounting",
-        hris: "HR",
-        commerce: "Commerce",
-        payment: "Payment",
-        genai: "GenAI"
-      }
+      CATEGORY_MAP: E.reduce(
+        (e, t) => (e[t.category] = t.label, e),
+        {}
+      )
     };
   },
   methods: {
     filter(e) {
-      return (e == null ? void 0 : e.filter((t) => !this.selectedCategory || t.categories.includes(this.selectedCategory))) || [];
+      const t = this.search.toLowerCase();
+      return console.log("filter", t), (e == null ? void 0 : e.filter(
+        (s) => (!this.selectedCategory || s.categories.includes(this.selectedCategory)) && (!t || s.name.toLowerCase().includes(t) || s.type.toLowerCase().includes(t))
+      )) || [];
     },
     unified_get_auth_url(e) {
-      var i;
+      var s;
       let t = `${this.API_URL}/unified/integration/auth/${this.workspace_id}/${e.type}?redirect=1`;
-      return this.external_xref && (t += `&external_xref=${encodeURIComponent(this.external_xref)}`), this.state && (t += `&state=${encodeURIComponent(this.state)}`), (i = this.scopes) != null && i.length && (t += `&scopes=${encodeURIComponent(this.scopes.join(","))}`), this.environment && this.environment !== "Production" && (t += `&env=${encodeURIComponent(this.environment)}`), this.lang && (t += `&lang=${this.lang}`), t += `&success_redirect=${encodeURIComponent(this.success_redirect || window.location.href)}`, t += `&failure_redirect=${encodeURIComponent(this.failure_redirect || window.location.href)}`, t;
+      return this.external_xref && (t += `&external_xref=${encodeURIComponent(this.external_xref)}`), this.state && (t += `&state=${encodeURIComponent(this.state)}`), (s = this.scopes) != null && s.length && (t += `&scopes=${encodeURIComponent(this.scopes.join(","))}`), this.environment && this.environment !== "Production" && (t += `&env=${encodeURIComponent(this.environment)}`), this.lang && (t += `&lang=${this.lang}`), t += `&success_redirect=${encodeURIComponent(this.success_redirect || window.location.href)}`, t += `&failure_redirect=${encodeURIComponent(this.failure_redirect || window.location.href)}`, t;
     },
     unified_select_category(e) {
       this.selectedCategory = e;
@@ -105,70 +132,81 @@ const m = "https://api.unified.to", E = "https://api-eu.unified.to", C = g({
       var t;
       this.selectedCategory = void 0;
       const e = `${this.API_URL}/unified/integration/workspace/${this.workspace_id}?summary=1${(t = this.categories) != null && t.length ? "&categories=" + this.categories.join(",") : ""}${this.environment === "Production" || !this.environment ? "" : "&env=" + encodeURIComponent(this.environment)}`;
-      if (this.INTEGRATIONS = await this.load_data(e) || [], this.CATEGORIES = [], this.INTEGRATIONS.forEach((i) => {
+      if (this.INTEGRATIONS = await this.load_data(e) || [], this.CATEGORIES = [], this.INTEGRATIONS.forEach((s) => {
         var r;
-        (r = i.categories) == null || r.forEach((c) => {
-          var l;
-          this.CATEGORY_MAP[c] && (!((l = this.categories) != null && l.length) || this.categories.includes(c)) && this.CATEGORIES.push(c);
+        (r = s.categories) == null || r.forEach((c) => {
+          var d;
+          this.CATEGORY_MAP[c] && (!((d = this.categories) != null && d.length) || this.categories.includes(c)) && this.CATEGORIES.push(c);
         });
-      }), this.CATEGORIES = [...new Set(this.CATEGORIES)], this.CATEGORIES.length === 1 ? this.CATEGORIES = [] : this.CATEGORIES = this.CATEGORIES.sort(function(i, r) {
-        return i.localeCompare(r);
+      }), this.CATEGORIES = [...new Set(this.CATEGORIES)], this.CATEGORIES.length === 1 ? this.CATEGORIES = [] : this.CATEGORIES = this.CATEGORIES.sort(function(s, r) {
+        return s.localeCompare(r);
       }), !this.nostyle) {
-        const i = document.createElement("link");
-        i.href = `${this.API_URL}/docs/unified.css`, i.rel = "stylesheet", document.head.appendChild(i);
+        const s = document.createElement("link");
+        s.href = `${this.API_URL}/docs/unified.css`, s.rel = "stylesheet", document.head.appendChild(s);
       }
     }
   },
   async mounted() {
     await this.setup();
   }
-}), y = (e, t) => {
-  const i = e.__vccOpts || e;
+}), I = (e, t) => {
+  const s = e.__vccOpts || e;
   for (const [r, c] of t)
-    i[r] = c;
-  return i;
-}, A = { class: "unified" }, I = {
+    s[r] = c;
+  return s;
+}, R = { class: "unified" }, v = {
   key: 0,
   class: "unified_menu"
-}, R = ["onClick"], T = { class: "unified_vendors" }, v = ["href"], S = ["src"], G = { class: "unified_vendor_inner" }, O = { class: "unified_vendor_name" }, $ = { key: 0 };
-function k(e, t, i, r, c, l) {
-  return s(), o("div", A, [
-    !e.notabs && e.CATEGORIES.length > 0 && e.filter(e.INTEGRATIONS).length ? (s(), o("div", I, [
-      d("button", {
-        class: p(["unified_button unified_button_all", e.selectedCategory ? "" : "active"]),
-        onClick: t[0] || (t[0] = (n) => e.unified_select_category())
+}, b = ["onClick"], T = { style: { "margin-bottom": "16px" } }, S = { class: "unified_vendors" }, G = ["href"], O = ["src"], w = { class: "unified_vendor_inner" }, k = { class: "unified_vendor_name" }, $ = { key: 0 };
+function N(e, t, s, r, c, d) {
+  return n(), a("div", R, [
+    !e.notabs && e.CATEGORIES.length > 0 && e.filter(e.INTEGRATIONS).length ? (n(), a("div", v, [
+      o("button", {
+        class: f(["unified_button unified_button_all", e.selectedCategory ? "" : "active"]),
+        onClick: t[0] || (t[0] = (i) => e.unified_select_category())
       }, "All", 2),
-      (s(!0), o(u, null, h(e.CATEGORIES, (n) => (s(), o("button", {
-        key: n,
-        class: p(`unified_button unified_button_${n} ${e.selectedCategory === n ? "active" : ""}`),
-        onClick: (a) => e.unified_select_category(n)
-      }, f(e.CATEGORY_MAP[n]), 11, R))), 128))
-    ])) : _("", !0),
-    d("div", T, [
-      (s(!0), o(u, null, h(e.filter(e.INTEGRATIONS), (n) => (s(), o("a", {
-        href: e.unified_get_auth_url(n),
-        key: n.type,
+      (n(!0), a(u, null, h(e.CATEGORIES, (i) => (n(), a("button", {
+        key: i,
+        class: f(`unified_button unified_button_${i} ${e.selectedCategory === i ? "active" : ""}`),
+        onClick: (l) => e.unified_select_category(i)
+      }, g(e.CATEGORY_MAP[i]), 11, b))), 128))
+    ])) : p("", !0),
+    o("div", T, [
+      _(o("input", {
+        type: "search",
+        class: "unified_search",
+        placeholder: "Search...",
+        "onUpdate:modelValue": t[1] || (t[1] = (i) => e.search = i),
+        style: { width: "100%" }
+      }, null, 512), [
+        [C, e.search]
+      ])
+    ]),
+    o("div", S, [
+      (n(!0), a(u, null, h(e.filter(e.INTEGRATIONS), (i) => (n(), a("a", {
+        href: e.unified_get_auth_url(i),
+        key: i.type,
         class: "unified_vendor"
       }, [
-        d("img", {
-          src: n.logo_url,
+        o("img", {
+          src: i.logo_url,
           class: "unified_image"
-        }, null, 8, S),
-        d("div", G, [
-          d("div", O, f(n.name), 1),
-          e.nocategories ? _("", !0) : (s(!0), o(u, { key: 0 }, h(n.categories.filter((a) => !e.CATEGORIES || e.CATEGORIES.indexOf(a) > -1).filter((a) => e.CATEGORY_MAP[a]), (a) => (s(), o("div", {
+        }, null, 8, O),
+        o("div", w, [
+          o("div", k, g(i.name), 1),
+          e.nocategories ? p("", !0) : (n(!0), a(u, { key: 0 }, h(i.categories.filter((l) => !e.CATEGORIES || e.CATEGORIES.indexOf(l) > -1).filter((l) => e.CATEGORY_MAP[l]), (l) => (n(), a("div", {
             class: "unified_vendor_cats",
-            key: a
+            key: l
           }, [
-            d("span", null, f(e.CATEGORY_MAP[a]), 1)
+            o("span", null, g(e.CATEGORY_MAP[l]), 1)
           ]))), 128))
         ])
-      ], 8, v))), 128)),
-      e.filter(e.INTEGRATIONS).length ? _("", !0) : (s(), o("div", $, "No integrations available"))
+      ], 8, G))), 128)),
+      e.filter(e.INTEGRATIONS).length ? p("", !0) : (n(), a("div", $, "No integrations available"))
     ])
   ]);
 }
-const N = /* @__PURE__ */ y(C, [["render", k]]);
+const M = /* @__PURE__ */ I(A, [["render", N]]);
 export {
-  N as default
+  M as default
 };

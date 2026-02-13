@@ -25,6 +25,7 @@
     "types": "./dist/main.d.ts",
     "exports": {
         ".": {
+            "types": "./dist/main.d.ts",
             "import": "./dist/UnifiedAPI-VueJS-Directory.js",
             "require": "./dist/UnifiedAPI-VueJS-Directory.umd.js"
         }
