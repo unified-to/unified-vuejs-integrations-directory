@@ -946,6 +946,7 @@ export const joiIntegration = Joi.object({
 	api_docs_url: Joi.string().uri().allow(null, '').description('The URL of the integration\'s API documentation').optional(),
 	logo_url: Joi.string().uri().allow(null, '').description('The URL of the integration\'s logo').optional(),
 	in_progress: Joi.boolean().allow(null).description('If this integration is not yet available as it is currently being built by unified.to').optional(),
+	is_hidden: Joi.boolean().allow(null).optional(),
 	color: Joi.string().allow(null, '').description('button background color for AUTH').optional(),
 	text_color: Joi.string().allow(null, '').description('text color for AUTH').optional(),
 	fa_icon: Joi.string().allow(null, '').description('font-awesome icon').optional(),
