@@ -49,6 +49,7 @@ const MAP_REGION = {
     eu_beta: 'https://api-eu-beta.unified.to',
     au: 'https://api-au.unified.to',
     dev: 'https://api-dev.unified.to',
+    localhost: 'https://localhost:8000',
 } as Record<string, string>;
 
 type TIntegrationCategoryType = Exclude<TIntegrationCategory, 'metadata' | 'auth' | 'passthrough' | 'scim'>;
