@@ -49,7 +49,7 @@ const MAP_REGION = {
     eu_beta: 'https://api-eu-beta.unified.to',
     au: 'https://api-au.unified.to',
     dev: 'https://api-dev.unified.to',
-    localhost: 'https://localhost:8000',
+    localhost: 'http://localhost:8000',
 } as Record<string, string>;
 
 type TIntegrationCategoryType = Exclude<TIntegrationCategory, 'metadata' | 'auth' | 'passthrough' | 'scim'>;
@@ -100,10 +100,14 @@ export default defineComponent({
             await this.setup();
         },
     },
+    computed: {
+        API_URL(): string {
+            return MAP_REGION[(this.dc as keyof typeof MAP_REGION) || 'us'] || MAP_REGION['us'];
+        },
+    },
     data() {
         return {
             search: '',
-            API_URL: MAP_REGION[(this.dc as keyof typeof MAP_REGION) || 'us'] || MAP_REGION['us'],
             INTEGRATIONS: [] as IIntegration[],
             selectedCategory: undefined as TIntegrationCategory | undefined,
             CATEGORIES: [] as TIntegrationCategory[],
