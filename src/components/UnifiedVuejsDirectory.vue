@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { CATEGORIES, IIntegration, TIntegrationCategory } from '../models/Unified';
-import { PropType, defineComponent, computed } from 'vue';
+import { PropType, defineComponent } from 'vue';
 
 const MAP_REGION = {
     us: 'https://api.unified.to',
