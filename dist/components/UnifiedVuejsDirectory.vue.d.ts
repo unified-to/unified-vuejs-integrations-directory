@@ -19,12 +19,13 @@ declare const _default: import("vue").DefineComponent<{
     dc: StringConstructor;
 }, unknown, {
     search: string;
-    API_URL: string;
     INTEGRATIONS: IIntegration[];
     selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | undefined;
     CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment")[];
     CATEGORY_MAP: Record<"passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment", string>;
-}, {}, {
+}, {
+    API_URL(): string;
+}, {
     filter(integrations: IIntegration[]): IIntegration[];
     unified_get_auth_url(integration: IIntegration): string;
     unified_select_category(category?: TIntegrationCategory): void;

@@ -2,7 +2,7 @@ import { defineComponent as m, openBlock as n, createElementBlock as a, createEl
 const E = [
   { category: "crm", label: "CRM" },
   { category: "martech", label: "Marketing" },
-  { category: "uc", label: "Unified Communications" },
+  { category: "uc", label: "Call Center" },
   { category: "enrich", label: "Enrichment" },
   { category: "ats", label: "ATS" },
   { category: "storage", label: "File Storage" },
@@ -21,14 +21,18 @@ const E = [
   { category: "forms", label: "Forms" },
   { category: "assessment", label: "Assessments" },
   { category: "ads", label: "Advertising" },
-  { category: "verification", label: "Verifications" }
+  { category: "verification", label: "Verifications" },
+  { category: "ticketing", label: "Ticketing" },
+  { category: "auth", label: "Authentication" },
+  { category: "metadata", label: "Metadata" }
 ], y = {
   us: "https://api.unified.to",
   us_beta: "https://api-beta.unified.to",
   eu: "https://api-eu.unified.to",
   eu_beta: "https://api-eu-beta.unified.to",
   au: "https://api-au.unified.to",
-  dev: "https://api-dev.unified.to"
+  dev: "https://api-dev.unified.to",
+  localhost: "http://localhost:8000"
 }, A = m({
   name: "IntegrationsDirectory",
   props: {
@@ -88,10 +92,14 @@ const E = [
       await this.setup();
     }
   },
+  computed: {
+    API_URL() {
+      return y[this.dc || "us"] || y.us;
+    }
+  },
   data() {
     return {
       search: "",
-      API_URL: y[this.dc || "us"] || y.us,
       INTEGRATIONS: [],
       selectedCategory: void 0,
       CATEGORIES: [],
@@ -154,13 +162,13 @@ const E = [
   for (const [r, c] of t)
     s[r] = c;
   return s;
-}, R = { class: "unified" }, v = {
+}, b = { class: "unified" }, R = {
   key: 0,
   class: "unified_menu"
-}, b = ["onClick"], T = { style: { "margin-bottom": "16px" } }, S = { class: "unified_vendors" }, G = ["href"], O = ["src"], w = { class: "unified_vendor_inner" }, k = { class: "unified_vendor_name" }, $ = { key: 0 };
+}, v = ["onClick"], T = { style: { "margin-bottom": "16px" } }, S = { class: "unified_vendors" }, G = ["href"], O = ["src"], w = { class: "unified_vendor_inner" }, k = { class: "unified_vendor_name" }, $ = { key: 0 };
 function N(e, t, s, r, c, d) {
-  return n(), a("div", R, [
-    !e.notabs && e.CATEGORIES.length > 0 && e.filter(e.INTEGRATIONS).length ? (n(), a("div", v, [
+  return n(), a("div", b, [
+    !e.notabs && e.CATEGORIES.length > 0 && e.filter(e.INTEGRATIONS).length ? (n(), a("div", R, [
       o("button", {
         class: f(["unified_button unified_button_all", e.selectedCategory ? "" : "active"]),
         onClick: t[0] || (t[0] = (i) => e.unified_select_category())
@@ -169,7 +177,7 @@ function N(e, t, s, r, c, d) {
         key: i,
         class: f(`unified_button unified_button_${i} ${e.selectedCategory === i ? "active" : ""}`),
         onClick: (l) => e.unified_select_category(i)
-      }, g(e.CATEGORY_MAP[i]), 11, b))), 128))
+      }, g(e.CATEGORY_MAP[i]), 11, v))), 128))
     ])) : p("", !0),
     o("div", T, [
       _(o("input", {
@@ -206,7 +214,7 @@ function N(e, t, s, r, c, d) {
     ])
   ]);
 }
-const M = /* @__PURE__ */ I(A, [["render", N]]);
+const P = /* @__PURE__ */ I(A, [["render", N]]);
 export {
-  M as default
+  P as default
 };
