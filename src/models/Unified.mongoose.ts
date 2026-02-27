@@ -222,6 +222,11 @@ export const schemaIntegrationSupport = {
 	virtual_webhook_student_id: { type: String, enum: [ 'supported-required', 'supported', 'not-supported' ] },
 	native_webhook_student_id: { type: String, enum: [ 'supported-required', 'supported', 'not-supported' ] },
 	native_webhook_type: { type: String, enum: [ 'supported-required', 'supported', 'not-supported' ] },
+	virtual_webhook_link_id: { type: String, enum: [ 'supported-required', 'supported', 'not-supported' ] },
+	virtual_webhook_bill_id: { type: String, enum: [ 'supported-required', 'supported', 'not-supported' ] },
+	virtual_webhook_invoice_id: { type: String, enum: [ 'supported-required', 'supported', 'not-supported' ] },
+	list_bill_id: { type: String, enum: [ 'supported-required', 'supported', 'not-supported' ] },
+	virtual_webhook_benefit_id: { type: String },
 };
 
 export const schemaInvoice = {
@@ -297,7 +302,7 @@ export const schemaWebhookData = {
 };
 
 export const schemaWorkspaceIntegrationAuth = {
-	client_id: { type: SchemaTypes.ObjectId, index: true },
+	client_id: { type: String },
 	client_secret: { type: String },
 	consumer_key: { type: String },
 	consumer_secret: { type: String },
