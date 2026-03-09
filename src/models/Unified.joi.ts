@@ -764,6 +764,7 @@ export const joiConnectionAuth = Joi.object({
 	refresh_token_expires_in: Joi.number().allow(null).optional(),
 	refresh_token_expires_date: Joi.date().allow(null).optional(),
 	dev_api_key: Joi.string().allow(null, '').optional(),
+	audience: Joi.string().allow(null, '').optional(),
 }).label('ConnectionAuth').description('An authentication object that represents a specific authorized user\'s connection to an integration.');
 
 export const joiConnection = Joi.object({
@@ -939,7 +940,8 @@ export const joiIntegrationSupport = Joi.object({
 	virtual_webhook_bill_id: joiSupportInboundType.allow(null).optional(),
 	virtual_webhook_invoice_id: joiSupportInboundType.allow(null).optional(),
 	list_bill_id: joiSupportInboundType.allow(null).optional(),
-	virtual_webhook_benefit_id: Joi.string().allow(null, '').optional(),
+	virtual_webhook_benefit_id: Joi.any().allow(null).optional(),
+	virtual_webhook_payment_id: Joi.any().allow(null).optional(),
 }).label('IntegrationSupport');
 
 export const joiIntegration = Joi.object({
