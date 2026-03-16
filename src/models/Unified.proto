@@ -455,5 +455,6 @@ message Workspace {
 	optional string clickhouse_url = 53;
 	optional string clickhouse_username = 54;
 	optional string clickhouse_password = 55;
+	optional bool auto_join = 56;
 }
 
