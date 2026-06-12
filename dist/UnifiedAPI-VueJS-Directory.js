@@ -1,4 +1,4 @@
-import { defineComponent as m, openBlock as n, createElementBlock as a, createElementVNode as o, normalizeClass as f, Fragment as u, renderList as h, toDisplayString as g, createCommentVNode as p, withDirectives as _, vModelText as C } from "vue";
+import { defineComponent as y, openBlock as n, createElementBlock as a, normalizeClass as h, createElementVNode as r, Fragment as u, renderList as g, toDisplayString as f, createCommentVNode as m, withDirectives as _, vModelText as C } from "vue";
 const E = [
   { category: "crm", label: "CRM" },
   { category: "martech", label: "Marketing" },
@@ -24,8 +24,12 @@ const E = [
   { category: "verification", label: "Verifications" },
   { category: "ticketing", label: "Ticketing" },
   { category: "auth", label: "Authentication" },
-  { category: "metadata", label: "Metadata" }
-], y = {
+  { category: "metadata", label: "Metadata" },
+  { category: "passthrough", label: "Passthrough" },
+  { category: "signing", label: "E-Signature" },
+  { category: "clubs", label: "Clubs" },
+  { category: "datastore", label: "Datastore" }
+], p = {
   us: "https://api.unified.to",
   us_beta: "https://api-beta.unified.to",
   eu: "https://api-eu.unified.to",
@@ -33,7 +37,18 @@ const E = [
   au: "https://api-au.unified.to",
   dev: "https://api-dev.unified.to",
   localhost: "http://localhost:8000"
-}, A = m({
+};
+function b(e) {
+  if (!e)
+    return "auto";
+  const t = e.toLowerCase().trim();
+  return t === "dark" || t.startsWith("dark") ? "dark" : t === "light" || t.startsWith("light") ? "light" : "auto";
+}
+function v() {
+  if (!(typeof window > "u"))
+    return new URLSearchParams(window.location.search).get("theme") || void 0;
+}
+const A = y({
   name: "IntegrationsDirectory",
   props: {
     workspace_id: {
@@ -63,8 +78,10 @@ const E = [
     // Do not display tabs in the embedded directory
     nocategories: Boolean,
     // Do not display category badges for each integration
-    dc: String
+    dc: String,
     // data-region ('us'|'eu')
+    theme: String
+    // Theme mode: 'dark', 'light', or omit for auto-detect (also reads ?theme= from URL)
   },
   watch: {
     // async search() {
@@ -94,7 +111,13 @@ const E = [
   },
   computed: {
     API_URL() {
-      return y[this.dc || "us"] || y.us;
+      return p[this.dc || "us"] || p.us;
+    },
+    resolvedTheme() {
+      return b(this.theme || v());
+    },
+    themeClass() {
+      return this.resolvedTheme === "dark" ? "dark-theme" : this.resolvedTheme === "light" ? "unified-theme-light" : "";
     }
   },
   data() {
@@ -113,13 +136,13 @@ const E = [
     filter(e) {
       const t = this.search.toLowerCase();
       return console.log("filter", t), (e == null ? void 0 : e.filter(
-        (s) => (!this.selectedCategory || s.categories.includes(this.selectedCategory)) && (!t || s.name.toLowerCase().includes(t) || s.type.toLowerCase().includes(t))
+        (i) => (!this.selectedCategory || i.categories.includes(this.selectedCategory)) && (!t || i.name.toLowerCase().includes(t) || i.type.toLowerCase().includes(t))
       )) || [];
     },
     unified_get_auth_url(e) {
-      var s;
+      var i;
       let t = `${this.API_URL}/unified/integration/auth/${this.workspace_id}/${e.type}?redirect=1`;
-      return this.external_xref && (t += `&external_xref=${encodeURIComponent(this.external_xref)}`), this.state && (t += `&state=${encodeURIComponent(this.state)}`), (s = this.scopes) != null && s.length && (t += `&scopes=${encodeURIComponent(this.scopes.join(","))}`), this.environment && this.environment !== "Production" && (t += `&env=${encodeURIComponent(this.environment)}`), this.lang && (t += `&lang=${this.lang}`), t += `&success_redirect=${encodeURIComponent(this.success_redirect || window.location.href)}`, t += `&failure_redirect=${encodeURIComponent(this.failure_redirect || window.location.href)}`, t;
+      return this.external_xref && (t += `&external_xref=${encodeURIComponent(this.external_xref)}`), this.state && (t += `&state=${encodeURIComponent(this.state)}`), (i = this.scopes) != null && i.length && (t += `&scopes=${encodeURIComponent(this.scopes.join(","))}`), this.environment && this.environment !== "Production" && (t += `&env=${encodeURIComponent(this.environment)}`), this.lang && (t += `&lang=${this.lang}`), this.resolvedTheme !== "auto" && (t += `&theme=${encodeURIComponent(this.resolvedTheme)}`), t += `&success_redirect=${encodeURIComponent(this.success_redirect || window.location.href)}`, t += `&failure_redirect=${encodeURIComponent(this.failure_redirect || window.location.href)}`, t;
     },
     unified_select_category(e) {
       this.selectedCategory = e;
@@ -140,81 +163,83 @@ const E = [
       var t;
       this.selectedCategory = void 0;
       const e = `${this.API_URL}/unified/integration/workspace/${this.workspace_id}?summary=1${(t = this.categories) != null && t.length ? "&categories=" + this.categories.join(",") : ""}${this.environment === "Production" || !this.environment ? "" : "&env=" + encodeURIComponent(this.environment)}`;
-      if (this.INTEGRATIONS = await this.load_data(e) || [], this.CATEGORIES = [], this.INTEGRATIONS.forEach((s) => {
-        var r;
-        (r = s.categories) == null || r.forEach((c) => {
+      if (this.INTEGRATIONS = await this.load_data(e) || [], this.CATEGORIES = [], this.INTEGRATIONS.forEach((i) => {
+        var o;
+        (o = i.categories) == null || o.forEach((c) => {
           var d;
           this.CATEGORY_MAP[c] && (!((d = this.categories) != null && d.length) || this.categories.includes(c)) && this.CATEGORIES.push(c);
         });
-      }), this.CATEGORIES = [...new Set(this.CATEGORIES)], this.CATEGORIES.length === 1 ? this.CATEGORIES = [] : this.CATEGORIES = this.CATEGORIES.sort(function(s, r) {
-        return s.localeCompare(r);
+      }), this.CATEGORIES = [...new Set(this.CATEGORIES)], this.CATEGORIES.length === 1 ? this.CATEGORIES = [] : this.CATEGORIES = this.CATEGORIES.sort(function(i, o) {
+        return i.localeCompare(o);
       }), !this.nostyle) {
-        const s = document.createElement("link");
-        s.href = `${this.API_URL}/docs/unified.css`, s.rel = "stylesheet", document.head.appendChild(s);
+        const i = document.createElement("link");
+        i.href = `${this.API_URL}/docs/unified.css`, i.rel = "stylesheet", document.head.appendChild(i);
       }
     }
   },
   async mounted() {
     await this.setup();
   }
-}), I = (e, t) => {
-  const s = e.__vccOpts || e;
-  for (const [r, c] of t)
-    s[r] = c;
-  return s;
-}, b = { class: "unified" }, R = {
+}), T = (e, t) => {
+  const i = e.__vccOpts || e;
+  for (const [o, c] of t)
+    i[o] = c;
+  return i;
+}, I = {
   key: 0,
   class: "unified_menu"
-}, v = ["onClick"], T = { style: { "margin-bottom": "16px" } }, S = { class: "unified_vendors" }, G = ["href"], O = ["src"], w = { class: "unified_vendor_inner" }, k = { class: "unified_vendor_name" }, $ = { key: 0 };
-function N(e, t, s, r, c, d) {
-  return n(), a("div", b, [
-    !e.notabs && e.CATEGORIES.length > 0 && e.filter(e.INTEGRATIONS).length ? (n(), a("div", R, [
-      o("button", {
-        class: f(["unified_button unified_button_all", e.selectedCategory ? "" : "active"]),
-        onClick: t[0] || (t[0] = (i) => e.unified_select_category())
+}, R = ["onClick"], S = { style: { "margin-bottom": "16px" } }, w = { class: "unified_vendors" }, k = ["href"], G = ["src"], O = { class: "unified_vendor_inner" }, $ = { class: "unified_vendor_name" }, N = { key: 0 };
+function U(e, t, i, o, c, d) {
+  return n(), a("div", {
+    class: h(["unified", e.themeClass])
+  }, [
+    !e.notabs && e.CATEGORIES.length > 0 && e.filter(e.INTEGRATIONS).length ? (n(), a("div", I, [
+      r("button", {
+        class: h(["unified_button unified_button_all", e.selectedCategory ? "" : "active"]),
+        onClick: t[0] || (t[0] = (s) => e.unified_select_category())
       }, "All", 2),
-      (n(!0), a(u, null, h(e.CATEGORIES, (i) => (n(), a("button", {
-        key: i,
-        class: f(`unified_button unified_button_${i} ${e.selectedCategory === i ? "active" : ""}`),
-        onClick: (l) => e.unified_select_category(i)
-      }, g(e.CATEGORY_MAP[i]), 11, v))), 128))
-    ])) : p("", !0),
-    o("div", T, [
-      _(o("input", {
+      (n(!0), a(u, null, g(e.CATEGORIES, (s) => (n(), a("button", {
+        key: s,
+        class: h(`unified_button unified_button_${s} ${e.selectedCategory === s ? "active" : ""}`),
+        onClick: (l) => e.unified_select_category(s)
+      }, f(e.CATEGORY_MAP[s]), 11, R))), 128))
+    ])) : m("", !0),
+    r("div", S, [
+      _(r("input", {
         type: "search",
         class: "unified_search",
         placeholder: "Search...",
-        "onUpdate:modelValue": t[1] || (t[1] = (i) => e.search = i),
+        "onUpdate:modelValue": t[1] || (t[1] = (s) => e.search = s),
         style: { width: "100%" }
       }, null, 512), [
         [C, e.search]
       ])
     ]),
-    o("div", S, [
-      (n(!0), a(u, null, h(e.filter(e.INTEGRATIONS), (i) => (n(), a("a", {
-        href: e.unified_get_auth_url(i),
-        key: i.type,
+    r("div", w, [
+      (n(!0), a(u, null, g(e.filter(e.INTEGRATIONS), (s) => (n(), a("a", {
+        href: e.unified_get_auth_url(s),
+        key: s.type,
         class: "unified_vendor"
       }, [
-        o("img", {
-          src: i.logo_url,
+        r("img", {
+          src: s.logo_url,
           class: "unified_image"
-        }, null, 8, O),
-        o("div", w, [
-          o("div", k, g(i.name), 1),
-          e.nocategories ? p("", !0) : (n(!0), a(u, { key: 0 }, h(i.categories.filter((l) => !e.CATEGORIES || e.CATEGORIES.indexOf(l) > -1).filter((l) => e.CATEGORY_MAP[l]), (l) => (n(), a("div", {
+        }, null, 8, G),
+        r("div", O, [
+          r("div", $, f(s.name), 1),
+          e.nocategories ? m("", !0) : (n(!0), a(u, { key: 0 }, g(s.categories.filter((l) => !e.CATEGORIES || e.CATEGORIES.indexOf(l) > -1).filter((l) => e.CATEGORY_MAP[l]), (l) => (n(), a("div", {
             class: "unified_vendor_cats",
             key: l
           }, [
-            o("span", null, g(e.CATEGORY_MAP[l]), 1)
+            r("span", null, f(e.CATEGORY_MAP[l]), 1)
           ]))), 128))
         ])
-      ], 8, G))), 128)),
-      e.filter(e.INTEGRATIONS).length ? p("", !0) : (n(), a("div", $, "No integrations available"))
+      ], 8, k))), 128)),
+      e.filter(e.INTEGRATIONS).length ? m("", !0) : (n(), a("div", N, "No integrations available"))
     ])
-  ]);
+  ], 2);
 }
-const P = /* @__PURE__ */ I(A, [["render", N]]);
+const M = /* @__PURE__ */ T(A, [["render", U]]);
 export {
-  P as default
+  M as default
 };

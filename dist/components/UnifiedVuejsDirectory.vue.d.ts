@@ -1,5 +1,6 @@
 import { IIntegration, TIntegrationCategory } from '../models/Unified';
 import { PropType } from 'vue';
+declare type UnifiedTheme = 'dark' | 'light' | 'auto';
 declare const _default: import("vue").DefineComponent<{
     workspace_id: {
         type: StringConstructor;
@@ -17,14 +18,17 @@ declare const _default: import("vue").DefineComponent<{
     notabs: BooleanConstructor;
     nocategories: BooleanConstructor;
     dc: StringConstructor;
+    theme: StringConstructor;
 }, unknown, {
     search: string;
     INTEGRATIONS: IIntegration[];
-    selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | undefined;
-    CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment")[];
-    CATEGORY_MAP: Record<"passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment", string>;
+    selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | undefined;
+    CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore")[];
+    CATEGORY_MAP: Record<"passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore", string>;
 }, {
     API_URL(): string;
+    resolvedTheme(): UnifiedTheme;
+    themeClass(): string;
 }, {
     filter(integrations: IIntegration[]): IIntegration[];
     unified_get_auth_url(integration: IIntegration): string;
@@ -48,6 +52,7 @@ declare const _default: import("vue").DefineComponent<{
     notabs: BooleanConstructor;
     nocategories: BooleanConstructor;
     dc: StringConstructor;
+    theme: StringConstructor;
 }>>, {
     nostyle: boolean;
     notabs: boolean;

@@ -1,5 +1,5 @@
 <template>
-    <div class="unified">
+    <div class="unified" :class="themeClass">
         <div class="unified_menu" v-if="!notabs && CATEGORIES.length > 0 && filter(INTEGRATIONS).length">
             <button class="unified_button unified_button_all" :class="selectedCategory ? '' : 'active'" @click="unified_select_category()">All</button>
             <button
@@ -53,6 +53,28 @@ const MAP_REGION = {
 } as Record<string, string>;
 
 type TIntegrationCategoryType = Exclude<TIntegrationCategory, 'metadata' | 'auth' | 'passthrough' | 'scim'>;
+type UnifiedTheme = 'dark' | 'light' | 'auto';
+
+function normalizeTheme(value?: string | null): UnifiedTheme {
+    if (!value) {
+        return 'auto';
+    }
+    const normalized = value.toLowerCase().trim();
+    if (normalized === 'dark' || normalized.startsWith('dark')) {
+        return 'dark';
+    }
+    if (normalized === 'light' || normalized.startsWith('light')) {
+        return 'light';
+    }
+    return 'auto';
+}
+
+function getThemeFromUrl(): string | undefined {
+    if (typeof window === 'undefined') {
+        return undefined;
+    }
+    return new URLSearchParams(window.location.search).get('theme') || undefined;
+}
 
 export default defineComponent({
     name: 'IntegrationsDirectory',
@@ -73,6 +95,7 @@ export default defineComponent({
         notabs: Boolean, // Do not display tabs in the embedded directory
         nocategories: Boolean, // Do not display category badges for each integration
         dc: String, // data-region ('us'|'eu')
+        theme: String, // Theme mode: 'dark', 'light', or omit for auto-detect (also reads ?theme= from URL)
     },
     watch: {
         // async search() {
@@ -103,6 +126,18 @@ export default defineComponent({
     computed: {
         API_URL(): string {
             return MAP_REGION[(this.dc as keyof typeof MAP_REGION) || 'us'] || MAP_REGION['us'];
+        },
+        resolvedTheme(): UnifiedTheme {
+            return normalizeTheme(this.theme || getThemeFromUrl());
+        },
+        themeClass(): string {
+            if (this.resolvedTheme === 'dark') {
+                return 'dark-theme';
+            }
+            if (this.resolvedTheme === 'light') {
+                return 'unified-theme-light';
+            }
+            return '';
         },
     },
     data() {
@@ -149,6 +184,9 @@ export default defineComponent({
             }
             if (this.lang) {
                 url += `&lang=${this.lang}`;
+            }
+            if (this.resolvedTheme !== 'auto') {
+                url += `&theme=${encodeURIComponent(this.resolvedTheme)}`;
             }
 
             // if (this.success_redirect) {
