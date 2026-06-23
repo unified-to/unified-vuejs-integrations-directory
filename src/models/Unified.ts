@@ -507,7 +507,8 @@ export const SecretsManagerType = [
 	'aws',
 	'azure',
 	'gcp',
-	'hashicorp'
+	'hashicorp',
+	'composio'
 ] as const;
 
 export type TSecretsManagerType = typeof SecretsManagerType[number];
