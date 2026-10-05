@@ -22,9 +22,9 @@ declare const _default: import("vue").DefineComponent<{
 }, unknown, {
     search: string;
     INTEGRATIONS: IIntegration[];
-    selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | undefined;
-    CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore")[];
-    CATEGORY_MAP: Record<"passthrough" | "hris" | "ats" | "auth" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore", string>;
+    selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social" | undefined;
+    CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social")[];
+    CATEGORY_MAP: Record<"passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social", string>;
 }, {
     API_URL(): string;
     resolvedTheme(): UnifiedTheme;

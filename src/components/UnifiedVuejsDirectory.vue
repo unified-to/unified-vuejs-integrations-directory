@@ -18,7 +18,7 @@
 
         <div class="unified_vendors">
             <a v-for="integration of filter(INTEGRATIONS)" :href="unified_get_auth_url(integration)" v-bind:key="integration.type" class="unified_vendor">
-                <img :src="integration.logo_url" class="unified_image" />
+                <img :src="integration.logo_url" :alt="integration.name" class="unified_image" />
                 <div class="unified_vendor_inner">
                     <div class="unified_vendor_name">{{ integration.name }}</div>
                     <div
