@@ -1,22 +1,22 @@
 export declare const ApiCallType: readonly ["login", "webhook", "inbound", "mcp"];
 export declare type TApiCallType = typeof ApiCallType[number];
-export declare const IntegrationAuthType: readonly ["oauth1", "oauth2", "other", "token"];
+export declare const IntegrationAuthType: readonly ["oauth2", "other", "token"];
 export declare type TIntegrationAuthType = typeof IntegrationAuthType[number];
-export declare const IntegrationCategory: readonly ["passthrough", "hris", "ats", "auth", "crm", "enrich", "martech", "ticketing", "uc", "accounting", "storage", "commerce", "payment", "genai", "messaging", "kms", "task", "scim", "lms", "repo", "metadata", "calendar", "verification", "ads", "forms", "shipping", "assessment", "signing", "clubs", "datastore"];
+export declare const IntegrationCategory: readonly ["passthrough", "hris", "ats", "auth", "saml", "crm", "enrich", "martech", "ticketing", "uc", "accounting", "storage", "commerce", "payment", "genai", "messaging", "kms", "task", "scim", "lms", "repo", "metadata", "calendar", "verification", "ads", "analytics", "forms", "shipping", "assessment", "signing", "clubs", "datastore", "cdp", "performance", "social"];
 export declare type TIntegrationCategory = typeof IntegrationCategory[number];
-export declare const IntegrationPermission: readonly ["accounting_account_read", "accounting_account_write", "accounting_transaction_read", "accounting_transaction_write", "accounting_journal_read", "accounting_journal_write", "accounting_invoice_read", "accounting_invoice_write", "accounting_bill_read", "accounting_bill_write", "accounting_creditmemo_read", "accounting_creditmemo_write", "accounting_contact_read", "accounting_contact_write", "accounting_expense_read", "accounting_expense_write", "accounting_taxrate_read", "accounting_taxrate_write", "accounting_organization_read", "accounting_order_read", "accounting_order_write", "accounting_purchaseorder_read", "accounting_purchaseorder_write", "accounting_salesorder_read", "accounting_salesorder_write", "accounting_report_read", "accounting_report_write", "accounting_trialbalance_read", "accounting_trialbalance_write", "accounting_profitloss_read", "accounting_profitloss_write", "accounting_balancesheet_read", "accounting_balancesheet_write", "accounting_category_read", "accounting_category_write", "payment_payment_read", "payment_payment_write", "accounting_cashflow_read", "accounting_cashflow_write", "payment_payout_read", "payment_refund_read", "payment_link_read", "payment_link_write", "payment_subscription_read", "payment_subscription_write", "commerce_item_read", "commerce_item_write", "commerce_collection_read", "commerce_collection_write", "commerce_inventory_read", "commerce_inventory_write", "commerce_location_read", "commerce_location_write", "commerce_review_read", "commerce_review_write", "commerce_saleschannel_read", "commerce_saleschannel_write", "commerce_itemvariant_read", "commerce_itemvariant_write", "commerce_reservation_read", "commerce_reservation_write", "commerce_availability_read", "commerce_availability_write", "verification_package_read", "verification_request_read", "verification_request_write", "assessment_package_read", "assessment_package_write", "assessment_order_write", "ats_activity_read", "ats_activity_write", "ats_application_read", "ats_application_write", "ats_applicationstatus_read", "ats_candidate_read", "ats_candidate_write", "ats_interview_read", "ats_interview_write", "ats_job_read", "ats_job_write", "ats_company_read", "ats_company_write", "ats_document_read", "ats_document_write", "ats_scorecard_read", "ats_scorecard_write", "crm_company_read", "crm_company_write", "crm_contact_read", "crm_contact_write", "crm_deal_read", "crm_deal_write", "crm_event_read", "crm_event_write", "crm_lead_read", "crm_lead_write", "crm_pipeline_read", "crm_pipeline_write", "martech_list_read", "martech_list_write", "martech_member_read", "martech_member_write", "martech_campaign_read", "martech_campaign_write", "martech_report_read", "martech_report_write", "ticketing_customer_read", "ticketing_customer_write", "ticketing_ticket_read", "ticketing_ticket_write", "ticketing_note_read", "ticketing_note_write", "ticketing_category_read", "ticketing_category_write", "hris_employee_read", "hris_employee_write", "hris_group_read", "hris_group_write", "hris_payslip_read", "hris_payslip_write", "hris_timeoff_read", "hris_timeoff_write", "hris_timeshift_read", "hris_timeshift_write", "hris_company_read", "hris_company_write", "hris_location_read", "hris_location_write", "hris_device_read", "hris_device_write", "hris_deduction_read", "hris_deduction_write", "hris_benefit_read", "hris_benefit_write", "hris_bankaccount_read", "hris_bankaccount_write", "uc_call_read", "uc_contact_read", "uc_contact_write", "uc_comment_read", "uc_comment_write", "uc_recording_read", "storage_file_read", "storage_file_write", "webhook", "genai_model_read", "genai_prompt_read", "genai_prompt_write", "genai_embedding_read", "genai_embedding_write", "messaging_message_read", "messaging_message_write", "messaging_channel_read", "messaging_event_read", "messaging_event_write", "kms_space_read", "kms_space_write", "kms_page_read", "kms_page_write", "kms_comment_read", "kms_comment_write", "task_project_read", "task_project_write", "task_task_read", "task_task_write", "task_change_read", "task_comment_read", "task_comment_write", "scim_users_read", "scim_users_write", "scim_groups_read", "scim_groups_write", "lms_course_read", "lms_course_write", "lms_class_read", "lms_class_write", "lms_student_read", "lms_student_write", "lms_instructor_read", "lms_instructor_write", "lms_content_read", "lms_content_write", "lms_collection_read", "lms_collection_write", "lms_activity_read", "lms_activity_write", "repo_organization_read", "repo_organization_write", "repo_repository_read", "repo_repository_write", "repo_branch_read", "repo_branch_write", "repo_commit_read", "repo_commit_write", "repo_pullrequest_read", "repo_pullrequest_write", "metadata_metadata_read", "metadata_metadata_write", "calendar_calendar_read", "calendar_calendar_write", "calendar_event_read", "calendar_event_write", "calendar_busy_read", "calendar_link_read", "calendar_link_write", "calendar_recording_read", "calendar_recording_write", "calendar_webinar_read", "calendar_webinar_write", "enrich_person_read", "enrich_company_read", "ads_ad_read", "ads_ad_write", "ads_campaign_read", "ads_campaign_write", "ads_group_read", "ads_group_write", "ads_report_read", "ads_organization_read", "ads_organization_write", "ads_creative_read", "ads_creative_write", "ads_insertionorder_read", "ads_insertionorder_write", "ads_target_read", "ads_promoted_read", "forms_form_read", "forms_form_write", "forms_submission_read", "forms_submission_write", "shipping_shipment_read", "shipping_shipment_write", "shipping_label_read", "shipping_label_write", "shipping_tracking_read", "shipping_rate_read", "shipping_carrier_read", "signing_document_read", "signing_document_write", "signing_signatory_read", "signing_signatory_write", "signing_template_read", "clubs_group_read", "clubs_group_write", "clubs_member_read", "clubs_member_write", "clubs_activity_read", "clubs_activity_write", "clubs_location_read", "clubs_location_write", "clubs_event_read", "clubs_event_write", "datastore_database_read", "datastore_database_write", "datastore_table_read", "datastore_table_write", "datastore_record_read", "datastore_record_write", "datastore_query_read", "datastore_query_write"];
+export declare const IntegrationPermission: readonly ["accounting_account_read", "accounting_account_write", "accounting_transaction_read", "accounting_transaction_write", "accounting_journal_read", "accounting_journal_write", "accounting_invoice_read", "accounting_invoice_write", "accounting_bill_read", "accounting_bill_write", "accounting_vendorcredit_read", "accounting_vendorcredit_write", "accounting_creditmemo_read", "accounting_creditmemo_write", "accounting_contact_read", "accounting_contact_write", "accounting_expense_read", "accounting_expense_write", "accounting_expensereport_read", "accounting_expensereport_write", "accounting_purchasereceipt_read", "accounting_purchasereceipt_write", "accounting_taxrate_read", "accounting_taxrate_write", "accounting_paymentterm_read", "accounting_paymentterm_write", "accounting_organization_read", "accounting_order_read", "accounting_order_write", "accounting_purchaseorder_read", "accounting_purchaseorder_write", "accounting_salesorder_read", "accounting_salesorder_write", "accounting_salesreceipt_read", "accounting_salesreceipt_write", "accounting_trialbalance_read", "accounting_trialbalance_write", "accounting_profitloss_read", "accounting_profitloss_write", "accounting_balancesheet_read", "accounting_balancesheet_write", "accounting_category_read", "accounting_category_write", "payment_payment_read", "payment_payment_write", "accounting_cashflow_read", "accounting_cashflow_write", "accounting_quote_read", "accounting_quote_write", "accounting_agedreceivable_read", "accounting_agedpayable_read", "accounting_project_read", "accounting_project_write", "accounting_bankfeedaccount_read", "accounting_bankfeedaccount_write", "accounting_bankfeedtransaction_read", "accounting_bankfeedtransaction_write", "payment_payout_read", "payment_refund_read", "payment_link_read", "payment_link_write", "payment_subscription_read", "payment_subscription_write", "commerce_item_read", "commerce_item_write", "commerce_collection_read", "commerce_collection_write", "commerce_inventory_read", "commerce_inventory_write", "commerce_location_read", "commerce_location_write", "commerce_review_read", "commerce_review_write", "commerce_saleschannel_read", "commerce_saleschannel_write", "commerce_itemvariant_read", "commerce_itemvariant_write", "commerce_reservation_read", "commerce_reservation_write", "commerce_availability_read", "commerce_availability_write", "verification_package_read", "verification_request_read", "verification_request_write", "assessment_package_read", "assessment_package_write", "assessment_order_write", "ats_activity_read", "ats_activity_write", "ats_application_read", "ats_application_write", "ats_applicationstatus_read", "ats_candidate_read", "ats_candidate_write", "ats_interview_read", "ats_interview_write", "ats_job_read", "ats_job_write", "ats_company_read", "ats_company_write", "ats_document_read", "ats_document_write", "ats_scorecard_read", "ats_scorecard_write", "crm_company_read", "crm_company_write", "crm_contact_read", "crm_contact_write", "crm_deal_read", "crm_deal_write", "crm_event_read", "crm_event_write", "crm_lead_read", "crm_lead_write", "crm_pipeline_read", "crm_pipeline_write", "crm_taxonomy_read", "martech_list_read", "martech_list_write", "martech_member_read", "martech_member_write", "martech_campaign_read", "martech_campaign_write", "martech_report_read", "martech_report_write", "ticketing_customer_read", "ticketing_customer_write", "ticketing_ticket_read", "ticketing_ticket_write", "ticketing_note_read", "ticketing_note_write", "ticketing_category_read", "ticketing_category_write", "hris_employee_read", "hris_employee_write", "hris_group_read", "hris_group_write", "hris_payslip_read", "hris_payslip_write", "hris_timeoff_read", "hris_timeoff_write", "hris_timeshift_read", "hris_timeshift_write", "hris_attendance_read", "hris_attendance_write", "hris_company_read", "hris_company_write", "hris_location_read", "hris_location_write", "hris_device_read", "hris_device_write", "hris_deduction_read", "hris_deduction_write", "hris_benefit_read", "hris_benefit_write", "hris_bankaccount_read", "hris_bankaccount_write", "hris_document_read", "hris_document_write", "hris_taxonomy_read", "hris_taxonomy_write", "uc_call_read", "uc_contact_read", "uc_contact_write", "uc_comment_read", "uc_comment_write", "uc_recording_read", "storage_file_read", "storage_file_write", "webhook", "genai_model_read", "genai_prompt_read", "genai_prompt_write", "genai_embedding_read", "genai_embedding_write", "genai_task_read", "genai_task_write", "genai_agent_read", "genai_agent_write", "genai_organization_read", "genai_organization_write", "genai_skill_read", "genai_skill_write", "messaging_message_read", "messaging_message_write", "messaging_channel_read", "messaging_channel_write", "messaging_event_read", "messaging_event_write", "kms_space_read", "kms_space_write", "kms_page_read", "kms_page_write", "kms_comment_read", "kms_comment_write", "task_project_read", "task_project_write", "task_task_read", "task_task_write", "task_change_read", "task_comment_read", "task_comment_write", "scim_users_read", "scim_users_write", "scim_groups_read", "scim_groups_write", "lms_course_read", "lms_course_write", "lms_class_read", "lms_class_write", "lms_student_read", "lms_student_write", "lms_instructor_read", "lms_instructor_write", "lms_content_read", "lms_content_write", "lms_collection_read", "lms_collection_write", "lms_activity_read", "lms_activity_write", "repo_organization_read", "repo_organization_write", "repo_repository_read", "repo_repository_write", "repo_branch_read", "repo_branch_write", "repo_commit_read", "repo_commit_write", "repo_pullrequest_read", "repo_pullrequest_write", "metadata_metadata_read", "metadata_metadata_write", "calendar_calendar_read", "calendar_calendar_write", "calendar_event_read", "calendar_event_write", "calendar_busy_read", "calendar_link_read", "calendar_link_write", "calendar_recording_read", "calendar_recording_write", "calendar_webinar_read", "calendar_webinar_write", "enrich_person_read", "enrich_company_read", "ads_ad_read", "ads_ad_write", "ads_campaign_read", "ads_campaign_write", "ads_group_read", "ads_group_write", "ads_report_read", "ads_organization_read", "ads_organization_write", "ads_creative_read", "ads_creative_write", "ads_asset_read", "ads_asset_write", "ads_insertionorder_read", "ads_insertionorder_write", "ads_target_read", "ads_promoted_read", "analytics_property_read", "analytics_property_write", "analytics_event_read", "analytics_event_write", "analytics_session_read", "analytics_visitor_read", "analytics_visitor_write", "analytics_report_read", "forms_form_read", "forms_form_write", "forms_submission_read", "forms_submission_write", "shipping_shipment_read", "shipping_shipment_write", "shipping_label_read", "shipping_label_write", "shipping_tracking_read", "shipping_rate_read", "shipping_rate_write", "shipping_carrier_read", "signing_document_read", "signing_document_write", "signing_signatory_read", "signing_signatory_write", "signing_template_read", "clubs_group_read", "clubs_group_write", "clubs_member_read", "clubs_member_write", "clubs_activity_read", "clubs_activity_write", "clubs_location_read", "clubs_location_write", "clubs_event_read", "clubs_event_write", "datastore_database_read", "datastore_database_write", "datastore_table_read", "datastore_table_write", "datastore_record_read", "datastore_record_write", "datastore_query_read", "datastore_query_write", "cdp_profile_read", "cdp_profile_write", "cdp_segment_read", "cdp_segment_write", "cdp_event_read", "cdp_event_write", "cdp_source_read", "cdp_source_write", "cdp_destination_read", "cdp_destination_write", "cdp_activation_read", "cdp_activation_write", "performance_cycle_read", "performance_review_read", "performance_review_write", "performance_goal_read", "performance_goal_write", "performance_feedback_read", "performance_feedback_write", "social_post_read", "social_post_write", "social_profile_read", "social_profile_write", "social_review_read", "social_review_write", "social_insight_read", "social_insight_write"];
 export declare type TIntegrationPermission = typeof IntegrationPermission[number];
 export declare const IntegrationSupportWebhookType: readonly ["virtual", "native"];
 export declare type TIntegrationSupportWebhookType = typeof IntegrationSupportWebhookType[number];
 export declare const IssueStatus: readonly ["COMPLETED", "NEW", "ROADMAP", "IN_PROGRESS", "ON_HOLD", "VALIDATING", "REJECTED"];
 export declare type TIssueStatus = typeof IssueStatus[number];
-export declare const ObjectType: readonly ["accounting_account", "accounting_transaction", "accounting_journal", "accounting_contact", "accounting_invoice", "accounting_bill", "accounting_creditmemo", "accounting_taxrate", "accounting_organization", "accounting_order", "accounting_salesorder", "accounting_purchaseorder", "accounting_report", "accounting_balancesheet", "accounting_profitloss", "accounting_trialbalance", "accounting_category", "accounting_expense", "accounting_cashflow", "payment_payment", "payment_link", "payment_payout", "payment_refund", "payment_subscription", "commerce_item", "commerce_collection", "commerce_inventory", "commerce_location", "commerce_review", "commerce_saleschannel", "commerce_itemvariant", "commerce_reservation", "commerce_availability", "verification_package", "verification_request", "assessment_package", "assessment_order", "ats_activity", "ats_application", "ats_applicationstatus", "ats_candidate", "ats_document", "ats_interview", "ats_job", "ats_scorecard", "ats_company", "crm_company", "crm_contact", "crm_deal", "crm_event", "crm_lead", "crm_pipeline", "hris_employee", "hris_group", "hris_payslip", "hris_timeoff", "hris_company", "hris_location", "hris_device", "hris_timeshift", "hris_deduction", "hris_benefit", "hris_bankaccount", "martech_list", "martech_member", "martech_campaign", "martech_report", "passthrough", "ticketing_note", "ticketing_ticket", "ticketing_customer", "ticketing_category", "uc_contact", "uc_call", "uc_comment", "uc_recording", "enrich_person", "enrich_company", "storage_file", "genai_model", "genai_prompt", "genai_embedding", "messaging_message", "messaging_channel", "messaging_event", "kms_space", "kms_page", "kms_comment", "task_project", "task_task", "task_comment", "task_change", "scim_users", "scim_groups", "lms_course", "lms_class", "lms_student", "lms_instructor", "lms_content", "lms_collection", "lms_activity", "repo_organization", "repo_repository", "repo_branch", "repo_commit", "repo_pullrequest", "metadata_metadata", "calendar_calendar", "calendar_event", "calendar_busy", "calendar_link", "calendar_recording", "calendar_webinar", "ads_organization", "ads_ad", "ads_campaign", "ads_report", "ads_group", "ads_creative", "ads_insertionorder", "ads_target", "ads_promoted", "forms_form", "forms_submission", "shipping_carrier", "shipping_rate", "shipping_shipment", "shipping_label", "shipping_tracking", "signing_document", "signing_signatory", "signing_template", "clubs_group", "clubs_member", "clubs_activity", "clubs_location", "clubs_event", "datastore_database", "datastore_table", "datastore_record", "datastore_query"];
+export declare const ObjectType: readonly ["accounting_account", "accounting_transaction", "accounting_journal", "accounting_contact", "accounting_invoice", "accounting_bill", "accounting_vendorcredit", "accounting_creditmemo", "accounting_taxrate", "accounting_paymentterm", "accounting_organization", "accounting_order", "accounting_salesorder", "accounting_salesreceipt", "accounting_purchaseorder", "accounting_balancesheet", "accounting_profitloss", "accounting_trialbalance", "accounting_category", "accounting_expense", "accounting_expensereport", "accounting_purchasereceipt", "accounting_cashflow", "accounting_quote", "accounting_agedreceivable", "accounting_agedpayable", "accounting_project", "accounting_bankfeedaccount", "accounting_bankfeedtransaction", "payment_payment", "payment_link", "payment_payout", "payment_refund", "payment_subscription", "commerce_item", "commerce_collection", "commerce_inventory", "commerce_location", "commerce_review", "commerce_saleschannel", "commerce_itemvariant", "commerce_reservation", "commerce_availability", "verification_package", "verification_request", "assessment_package", "assessment_order", "ats_activity", "ats_application", "ats_applicationstatus", "ats_candidate", "ats_document", "ats_interview", "ats_job", "ats_scorecard", "ats_company", "crm_company", "crm_contact", "crm_deal", "crm_event", "crm_lead", "crm_pipeline", "crm_taxonomy", "hris_employee", "hris_group", "hris_payslip", "hris_timeoff", "hris_company", "hris_location", "hris_device", "hris_timeshift", "hris_attendance", "hris_deduction", "hris_benefit", "hris_bankaccount", "hris_document", "hris_taxonomy", "martech_list", "martech_member", "martech_campaign", "martech_report", "passthrough", "ticketing_note", "ticketing_ticket", "ticketing_customer", "ticketing_category", "uc_contact", "uc_call", "uc_comment", "uc_recording", "enrich_person", "enrich_company", "storage_file", "genai_model", "genai_prompt", "genai_embedding", "genai_task", "genai_agent", "genai_organization", "genai_skill", "messaging_message", "messaging_channel", "messaging_event", "kms_space", "kms_page", "kms_comment", "task_project", "task_task", "task_comment", "task_change", "scim_users", "scim_groups", "lms_course", "lms_class", "lms_student", "lms_instructor", "lms_content", "lms_collection", "lms_activity", "repo_organization", "repo_repository", "repo_branch", "repo_commit", "repo_pullrequest", "metadata_metadata", "calendar_calendar", "calendar_event", "calendar_busy", "calendar_link", "calendar_recording", "calendar_webinar", "ads_organization", "ads_ad", "ads_campaign", "ads_report", "ads_group", "ads_creative", "ads_asset", "ads_insertionorder", "ads_target", "ads_promoted", "analytics_property", "analytics_event", "analytics_session", "analytics_visitor", "analytics_report", "forms_form", "forms_submission", "shipping_carrier", "shipping_rate", "shipping_shipment", "shipping_label", "shipping_tracking", "signing_document", "signing_signatory", "signing_template", "clubs_group", "clubs_member", "clubs_activity", "clubs_location", "clubs_event", "datastore_database", "datastore_table", "datastore_record", "datastore_query", "cdp_profile", "cdp_segment", "cdp_event", "cdp_source", "cdp_destination", "cdp_activation", "performance_cycle", "performance_review", "performance_goal", "performance_feedback", "social_post", "social_profile", "social_review", "social_insight"];
 export declare type TObjectType = typeof ObjectType[number];
 export declare const PlanTerm: readonly ["monthly", "yearly"];
 export declare type TPlanTerm = typeof PlanTerm[number];
 export declare const RegionSyncType: readonly ["workspace", "workspace-secrets", "workspaceintegrations", "users", "keys", "notifications"];
 export declare type TRegionSyncType = typeof RegionSyncType[number];
-export declare const SecretsManagerType: readonly ["aws", "azure", "gcp", "hashicorp"];
+export declare const SecretsManagerType: readonly ["aws", "azure", "gcp", "hashicorp", "composio", "1password", "bitwarden", "doppler", "akeyless", "pipedream", "alibabacloud"];
 export declare type TSecretsManagerType = typeof SecretsManagerType[number];
 export declare const SupportInboundType: readonly ["supported-required", "supported", "not-supported"];
 export declare type TSupportInboundType = typeof SupportInboundType[number];
@@ -68,13 +68,10 @@ export interface IConnection {
     categories: (TIntegrationCategory)[];
     auth?: IConnectionAuth;
     is_paused?: boolean;
-    auth_aws_arn?: string;
     environment?: string;
-    auth_azure_keyvault_id?: string;
-    auth_gcp_secret_name?: string;
-    auth_hashi_vault_path?: string;
     last_healthy_at?: (string | Date | number);
     last_unhealthy_at?: (string | Date | number);
+    last_unhealthy_code?: string;
     secretsmanager_id?: string;
     secretsmanager_key?: string;
 }
@@ -125,6 +122,7 @@ export interface IIntegration {
     web_url?: string;
     rate_limit_description?: string;
     beta?: boolean;
+    requires_cname?: boolean;
     support?: {
         [path in string]?: IIntegrationSupport;
     };
@@ -159,6 +157,7 @@ export interface IIntegrationSupport {
     list_sort_by_updated_at?: TSupportInboundType;
     list_updated_gte?: TSupportInboundType;
     list_user_id?: TSupportInboundType;
+    list_assigned_user_id?: TSupportInboundType;
     list_user_mentioned_id?: TSupportInboundType;
     list_customer_id?: TSupportInboundType;
     list_company_id?: TSupportInboundType;
@@ -318,6 +317,36 @@ export interface IIntegrationSupport {
     list_table_id?: TSupportInboundType;
     virtual_webhook_table_id?: TSupportInboundType;
     native_webhook_table_id?: TSupportInboundType;
+    list_property_id?: TSupportInboundType;
+    list_visitor_id?: TSupportInboundType;
+    list_session_id?: TSupportInboundType;
+    list_profile_id?: TSupportInboundType;
+    virtual_webhook_property_id?: TSupportInboundType;
+    native_webhook_property_id?: TSupportInboundType;
+    virtual_webhook_session_id?: TSupportInboundType;
+    native_webhook_session_id?: TSupportInboundType;
+    virtual_webhook_visitor_id?: TSupportInboundType;
+    native_webhook_visitor_id?: TSupportInboundType;
+    list_medium?: TSupportInboundType;
+    list_source?: TSupportInboundType;
+    list_dimension?: TSupportInboundType;
+    list_goal?: TSupportInboundType;
+    list_role_id?: TSupportInboundType;
+    list_effective_status?: TSupportInboundType;
+    virtual_webhook_assigned_user_id?: TSupportInboundType;
+    virtual_webhook_profile_id?: TSupportInboundType;
+    list_segment_id?: TSupportInboundType;
+    list_cycle_id?: TSupportInboundType;
+    virtual_webhook_cycle_id?: TSupportInboundType;
+    list_bankfeedaccount_id?: TSupportInboundType;
+    virtual_webhook_bankfeedaccount_id?: TSupportInboundType;
+    list_post_id?: TSupportInboundType;
+    virtual_webhook_post_id?: TSupportInboundType;
+    list_approver_user_id?: TSupportInboundType;
+    virtual_webhook_approver_user_id?: TSupportInboundType;
+    virtual_webhook_effective_status?: TSupportInboundType;
+    native_webhook_updated_gte?: TSupportInboundType;
+    list_destination_id?: TSupportInboundType;
 }
 export interface IInvoice {
     stripe_id: string;
@@ -339,6 +368,7 @@ export interface IIssue {
     ticket_ref: string;
     size?: number;
     importance?: number;
+    customer_note?: string;
 }
 export interface INotification {
     id?: string;
@@ -398,8 +428,20 @@ export interface ISecretsManager {
     auth: {
         [path in string]?: string;
     };
-    environments?: string[];
     dcs?: string[];
+}
+export interface ISecretsManagerInstructions {
+    type?: TSecretsManagerType;
+    key: string;
+    label: string;
+    instructions?: string;
+}
+export interface ISecretsManagerSecret {
+    id?: string;
+    created_at?: (string | Date | number);
+    updated_at?: (string | Date | number);
+    name?: string;
+    description?: string;
 }
 export interface IUser {
     id?: string;
@@ -445,7 +487,6 @@ export interface IWebhookData {
     data: unknown[];
     webhook: IWebhook;
     nonce: string;
-    sig?: string;
     sig256?: string;
     type: TWebhookDataType;
     external_xref?: string;
@@ -465,11 +506,6 @@ export interface IWorkspace {
     secret?: string;
     ip_allowlist?: IWorkspaceIpAllowlistEntry[];
     restrict_ips?: boolean;
-    aws_region?: string;
-    aws_key?: string;
-    aws_secret?: string;
-    auth_aws_external_id?: string;
-    auth_aws_arn?: string;
     datadog_apikey?: string;
     datadog_site?: string;
     environments?: string[];
@@ -479,6 +515,9 @@ export interface IWorkspace {
     stripe_canceling_at?: (string | Date | number);
     domain?: string;
     event_webhook_url?: string;
+    event_webhook_env_urls?: {
+        [path in string]?: string;
+    };
     event_webhook_events?: (TWorkspaceEventType)[];
     custom_auth_domain?: string;
     custom_auth_domain_valid?: boolean;
@@ -494,18 +533,6 @@ export interface IWorkspace {
     saml_only_login?: boolean;
     sync_objects?: (TRegionSyncType)[];
     sync_parent_dc?: string;
-    azure_keyvault_url?: string;
-    azure_tenant_id?: string;
-    azure_client_id?: string;
-    azure_client_secret?: string;
-    gcp_project_id?: string;
-    gcp_client_email?: string;
-    gcp_private_key?: string;
-    hashicorp_vault_url?: string;
-    hashicorp_vault_token?: string;
-    hashicorp_vault_namespace?: string;
-    hashicorp_vault_kv_mount?: string;
-    hashicorp_vault_kv_version?: string;
     grafana_apikey?: string;
     grafana_site?: string;
     grafana_username?: string;
@@ -513,6 +540,7 @@ export interface IWorkspace {
     clickhouse_url?: string;
     clickhouse_username?: string;
     clickhouse_password?: string;
+    clickhouse_table?: string;
     auto_join?: boolean;
     jwt_secret?: string;
     default_secretsmanager_id?: string;
@@ -526,10 +554,6 @@ export interface IWorkspaceIntegration {
     updated_at?: (string | Date | number);
     workspace_id?: string;
     integration_type: string;
-    client_id?: string;
-    client_secret?: string;
-    consumer_key?: string;
-    consumer_secret?: string;
     is_active: boolean;
     api_url?: string;
     authorize_url?: string;
@@ -537,19 +561,16 @@ export interface IWorkspaceIntegration {
     refresh_url?: string;
     base_url?: string;
     prompt_region?: boolean;
-    pem?: string;
-    key?: string;
+    use_unified_redirect?: boolean;
+    auth_type?: TIntegrationAuthType;
     environment?: string;
     categories?: (TIntegrationCategory)[];
-    dev_api_key?: string;
     overriden_scopes?: {
         [path in TIntegrationPermission]?: string;
     };
+    success_redirect?: string;
+    failure_redirect?: string;
     auth?: IWorkspaceIntegrationAuth;
-    auth_aws_arn?: string;
-    auth_azure_keyvault_id?: string;
-    auth_gcp_secret_name?: string;
-    auth_hashi_vault_path?: string;
     secretsmanager_id?: string;
     secretsmanager_key?: string;
 }
@@ -561,6 +582,10 @@ export interface IWorkspaceIntegrationAuth {
     pem?: string;
     key?: string;
     dev_api_key?: string;
+    saml_idp_url?: string;
+    saml_idp_entity_id?: string;
+    saml_pem?: string;
+    needs_pkce?: boolean;
 }
 export interface IWorkspaceIpAllowlistEntry {
     ip_address: string;
