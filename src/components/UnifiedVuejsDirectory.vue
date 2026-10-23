@@ -83,10 +83,10 @@ export default defineComponent({
             type: String,
             required: true,
         }, // your workspace_id found at https://app.unified.to/settings/api
-        categories: Array as PropType<string[]>, // An array of integration categories to limit the list of integrations (crm, ats, hr, uc,. ticketing, martech)
+        categories: Array as PropType<string[]>, // An array of integration categories to limit the list of integrations (crm, ats, hr, uc,. ticketing, martech); defaults to the categories of `scopes`
         external_xref: String, // Your ID for the account/user that is signed into your application
         state: String, // A state string that will be sent back to your success URL
-        scopes: Array as PropType<string[]>, // An array of Unified.to permission scopes to request from OAUTH2-based integrations found at https://unified.to/apidocs#unified_object_connection
+        scopes: Array as PropType<string[]>, // An array of Unified.to permission scopes to request (e.g. crm_event_read), found at https://unified.to/apidocs#unified_object_connection; defaults to the permissions enabled on each integration in your workspace
         success_redirect: String, // The URL where you want the user to be redirect to after a successful authentication. The Integration ID will be appended with (id=) to this URL, as will the state provided
         failure_redirect: String, // The URL where you want the user to be redirect to after an unsuccessful or aborted authorization.  An 'error' variable will be appended.
         nostyle: Boolean, // Do not include Unified.to's styles.  You must then define CSS styles for the embedded directory classes.
@@ -124,6 +124,14 @@ export default defineComponent({
         },
     },
     computed: {
+        // `categories` wins; otherwise list only the integrations in the categories of the requested `scopes` (`crm_event_read` is `crm`)
+        filterCategories(): string[] {
+            if (this.categories?.length) {
+                return this.categories;
+            }
+            const categories = (this.scopes || []).map((scope) => scope.split('_')[0]).filter((c) => this.CATEGORY_MAP[c as TIntegrationCategory]);
+            return [...new Set(categories)];
+        },
         API_URL(): string {
             return MAP_REGION[(this.dc as keyof typeof MAP_REGION) || 'us'] || MAP_REGION['us'];
         },
@@ -217,7 +225,7 @@ export default defineComponent({
         async setup() {
             this.selectedCategory = undefined;
             const url = `${this.API_URL}/unified/integration/workspace/${this.workspace_id}?summary=1${
-                this.categories?.length ? '&categories=' + this.categories.join(',') : ''
+                this.filterCategories.length ? '&categories=' + this.filterCategories.join(',') : ''
             }${this.environment === 'Production' || !this.environment ? '' : '&env=' + encodeURIComponent(this.environment)}`;
 
             this.INTEGRATIONS = ((await this.load_data(url)) || []) as IIntegration[];
@@ -225,7 +233,7 @@ export default defineComponent({
             this.CATEGORIES = [];
             this.INTEGRATIONS.forEach((integration) => {
                 integration.categories?.forEach((c) => {
-                    if (this.CATEGORY_MAP[c as TIntegrationCategoryType] && (!this.categories?.length || this.categories.includes(c))) {
+                    if (this.CATEGORY_MAP[c as TIntegrationCategoryType] && (!this.filterCategories.length || this.filterCategories.includes(c))) {
                         this.CATEGORIES.push(c);
                     }
                 });
