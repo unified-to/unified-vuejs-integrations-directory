@@ -1,5 +1,5 @@
-import { defineComponent as y, openBlock as s, createElementBlock as n, normalizeClass as h, createElementVNode as r, Fragment as u, renderList as g, toDisplayString as m, createCommentVNode as f, withDirectives as _, vModelText as C } from "vue";
-const b = [
+import { defineComponent as p, openBlock as s, createElementBlock as r, normalizeClass as c, createElementVNode as n, Fragment as h, renderList as d, toDisplayString as u, createCommentVNode as g, withDirectives as y, vModelText as C } from "vue";
+const _ = [
   { category: "crm", label: "CRM" },
   { category: "martech", label: "Marketing" },
   { category: "uc", label: "Call Center" },
@@ -33,8 +33,11 @@ const b = [
   { category: "cdp", label: "Customer Data Platform" },
   { category: "saml", label: "SAML SSO Authentication" },
   { category: "performance", label: "Performance Management" },
-  { category: "social", label: "Social Media" }
-], p = {
+  { category: "social", label: "Social Media" },
+  { category: "legal", label: "Legal Practice Management" },
+  { category: "compute", label: "Compute & Hosting" },
+  { category: "healthcare", label: "Healthcare" }
+], f = {
   us: "https://api.unified.to",
   us_beta: "https://api-beta.unified.to",
   eu: "https://api-eu.unified.to",
@@ -43,17 +46,17 @@ const b = [
   dev: "https://api-dev.unified.to",
   localhost: "http://localhost:8000"
 };
-function E(e) {
+function b(e) {
   if (!e)
     return "auto";
   const t = e.toLowerCase().trim();
   return t === "dark" || t.startsWith("dark") ? "dark" : t === "light" || t.startsWith("light") ? "light" : "auto";
 }
-function A() {
+function E() {
   if (!(typeof window > "u"))
     return new URLSearchParams(window.location.search).get("theme") || void 0;
 }
-const v = y({
+const A = p({
   name: "IntegrationsDirectory",
   props: {
     workspace_id: {
@@ -62,13 +65,13 @@ const v = y({
     },
     // your workspace_id found at https://app.unified.to/settings/api
     categories: Array,
-    // An array of integration categories to limit the list of integrations (crm, ats, hr, uc,. ticketing, martech)
+    // An array of integration categories to limit the list of integrations (crm, ats, hr, uc,. ticketing, martech); defaults to the categories of `scopes`
     external_xref: String,
     // Your ID for the account/user that is signed into your application
     state: String,
     // A state string that will be sent back to your success URL
     scopes: Array,
-    // An array of Unified.to permission scopes to request from OAUTH2-based integrations found at https://unified.to/apidocs#unified_object_connection
+    // An array of Unified.to permission scopes to request (e.g. crm_event_read), found at https://unified.to/apidocs#unified_object_connection; defaults to the permissions enabled on each integration in your workspace
     success_redirect: String,
     // The URL where you want the user to be redirect to after a successful authentication. The Integration ID will be appended with (id=) to this URL, as will the state provided
     failure_redirect: String,
@@ -115,11 +118,19 @@ const v = y({
     }
   },
   computed: {
+    // `categories` wins; otherwise list only the integrations in the categories of the requested `scopes` (`crm_event_read` is `crm`)
+    filterCategories() {
+      var t;
+      if ((t = this.categories) != null && t.length)
+        return this.categories;
+      const e = (this.scopes || []).map((a) => a.split("_")[0]).filter((a) => this.CATEGORY_MAP[a]);
+      return [...new Set(e)];
+    },
     API_URL() {
-      return p[this.dc || "us"] || p.us;
+      return f[this.dc || "us"] || f.us;
     },
     resolvedTheme() {
-      return E(this.theme || A());
+      return b(this.theme || E());
     },
     themeClass() {
       return this.resolvedTheme === "dark" ? "dark-theme" : this.resolvedTheme === "light" ? "unified-theme-light" : "";
@@ -131,7 +142,7 @@ const v = y({
       INTEGRATIONS: [],
       selectedCategory: void 0,
       CATEGORIES: [],
-      CATEGORY_MAP: b.reduce(
+      CATEGORY_MAP: _.reduce(
         (e, t) => (e[t.category] = t.label, e),
         {}
       )
@@ -165,52 +176,50 @@ const v = y({
       }
     },
     async setup() {
-      var t;
       this.selectedCategory = void 0;
-      const e = `${this.API_URL}/unified/integration/workspace/${this.workspace_id}?summary=1${(t = this.categories) != null && t.length ? "&categories=" + this.categories.join(",") : ""}${this.environment === "Production" || !this.environment ? "" : "&env=" + encodeURIComponent(this.environment)}`;
-      if (this.INTEGRATIONS = await this.load_data(e) || [], this.CATEGORIES = [], this.INTEGRATIONS.forEach((a) => {
-        var o;
-        (o = a.categories) == null || o.forEach((c) => {
-          var d;
-          this.CATEGORY_MAP[c] && (!((d = this.categories) != null && d.length) || this.categories.includes(c)) && this.CATEGORIES.push(c);
+      const e = `${this.API_URL}/unified/integration/workspace/${this.workspace_id}?summary=1${this.filterCategories.length ? "&categories=" + this.filterCategories.join(",") : ""}${this.environment === "Production" || !this.environment ? "" : "&env=" + encodeURIComponent(this.environment)}`;
+      if (this.INTEGRATIONS = await this.load_data(e) || [], this.CATEGORIES = [], this.INTEGRATIONS.forEach((t) => {
+        var a;
+        (a = t.categories) == null || a.forEach((l) => {
+          this.CATEGORY_MAP[l] && (!this.filterCategories.length || this.filterCategories.includes(l)) && this.CATEGORIES.push(l);
         });
-      }), this.CATEGORIES = [...new Set(this.CATEGORIES)], this.CATEGORIES.length === 1 ? this.CATEGORIES = [] : this.CATEGORIES = this.CATEGORIES.sort(function(a, o) {
-        return a.localeCompare(o);
+      }), this.CATEGORIES = [...new Set(this.CATEGORIES)], this.CATEGORIES.length === 1 ? this.CATEGORIES = [] : this.CATEGORIES = this.CATEGORIES.sort(function(t, a) {
+        return t.localeCompare(a);
       }), !this.nostyle) {
-        const a = document.createElement("link");
-        a.href = `${this.API_URL}/docs/unified.css`, a.rel = "stylesheet", document.head.appendChild(a);
+        const t = document.createElement("link");
+        t.href = `${this.API_URL}/docs/unified.css`, t.rel = "stylesheet", document.head.appendChild(t);
       }
     }
   },
   async mounted() {
     await this.setup();
   }
-}), T = (e, t) => {
+}), v = (e, t) => {
   const a = e.__vccOpts || e;
-  for (const [o, c] of t)
-    a[o] = c;
+  for (const [l, m] of t)
+    a[l] = m;
   return a;
-}, I = {
+}, T = {
   key: 0,
   class: "unified_menu"
-}, R = ["onClick"], S = { style: { "margin-bottom": "16px" } }, w = { class: "unified_vendors" }, k = ["href"], O = ["src", "alt"], G = { class: "unified_vendor_inner" }, $ = { class: "unified_vendor_name" }, M = { key: 0 };
-function P(e, t, a, o, c, d) {
-  return s(), n("div", {
-    class: h(["unified", e.themeClass])
+}, R = ["onClick"], I = { style: { "margin-bottom": "16px" } }, S = { class: "unified_vendors" }, w = ["href"], k = ["src", "alt"], O = { class: "unified_vendor_inner" }, G = { class: "unified_vendor_name" }, $ = { key: 0 };
+function M(e, t, a, l, m, P) {
+  return s(), r("div", {
+    class: c(["unified", e.themeClass])
   }, [
-    !e.notabs && e.CATEGORIES.length > 0 && e.filter(e.INTEGRATIONS).length ? (s(), n("div", I, [
-      r("button", {
-        class: h(["unified_button unified_button_all", e.selectedCategory ? "" : "active"]),
+    !e.notabs && e.CATEGORIES.length > 0 && e.filter(e.INTEGRATIONS).length ? (s(), r("div", T, [
+      n("button", {
+        class: c(["unified_button unified_button_all", e.selectedCategory ? "" : "active"]),
         onClick: t[0] || (t[0] = (i) => e.unified_select_category())
       }, "All", 2),
-      (s(!0), n(u, null, g(e.CATEGORIES, (i) => (s(), n("button", {
+      (s(!0), r(h, null, d(e.CATEGORIES, (i) => (s(), r("button", {
         key: i,
-        class: h(`unified_button unified_button_${i} ${e.selectedCategory === i ? "active" : ""}`),
-        onClick: (l) => e.unified_select_category(i)
-      }, m(e.CATEGORY_MAP[i]), 11, R))), 128))
-    ])) : f("", !0),
-    r("div", S, [
-      _(r("input", {
+        class: c(`unified_button unified_button_${i} ${e.selectedCategory === i ? "active" : ""}`),
+        onClick: (o) => e.unified_select_category(i)
+      }, u(e.CATEGORY_MAP[i]), 11, R))), 128))
+    ])) : g("", !0),
+    n("div", I, [
+      y(n("input", {
         type: "search",
         class: "unified_search",
         placeholder: "Search...",
@@ -220,32 +229,32 @@ function P(e, t, a, o, c, d) {
         [C, e.search]
       ])
     ]),
-    r("div", w, [
-      (s(!0), n(u, null, g(e.filter(e.INTEGRATIONS), (i) => (s(), n("a", {
+    n("div", S, [
+      (s(!0), r(h, null, d(e.filter(e.INTEGRATIONS), (i) => (s(), r("a", {
         href: e.unified_get_auth_url(i),
         key: i.type,
         class: "unified_vendor"
       }, [
-        r("img", {
+        n("img", {
           src: i.logo_url,
           alt: i.name,
           class: "unified_image"
-        }, null, 8, O),
-        r("div", G, [
-          r("div", $, m(i.name), 1),
-          e.nocategories ? f("", !0) : (s(!0), n(u, { key: 0 }, g(i.categories.filter((l) => !e.CATEGORIES || e.CATEGORIES.indexOf(l) > -1).filter((l) => e.CATEGORY_MAP[l]), (l) => (s(), n("div", {
+        }, null, 8, k),
+        n("div", O, [
+          n("div", G, u(i.name), 1),
+          e.nocategories ? g("", !0) : (s(!0), r(h, { key: 0 }, d(i.categories.filter((o) => !e.CATEGORIES || e.CATEGORIES.indexOf(o) > -1).filter((o) => e.CATEGORY_MAP[o]), (o) => (s(), r("div", {
             class: "unified_vendor_cats",
-            key: l
+            key: o
           }, [
-            r("span", null, m(e.CATEGORY_MAP[l]), 1)
+            n("span", null, u(e.CATEGORY_MAP[o]), 1)
           ]))), 128))
         ])
-      ], 8, k))), 128)),
-      e.filter(e.INTEGRATIONS).length ? f("", !0) : (s(), n("div", M, "No integrations available"))
+      ], 8, w))), 128)),
+      e.filter(e.INTEGRATIONS).length ? g("", !0) : (s(), r("div", $, "No integrations available"))
     ])
   ], 2);
 }
-const U = /* @__PURE__ */ T(v, [["render", P]]);
+const U = /* @__PURE__ */ v(A, [["render", M]]);
 export {
   U as default
 };

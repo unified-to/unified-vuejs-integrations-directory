@@ -22,10 +22,11 @@ declare const _default: import("vue").DefineComponent<{
 }, unknown, {
     search: string;
     INTEGRATIONS: IIntegration[];
-    selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social" | undefined;
-    CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social")[];
-    CATEGORY_MAP: Record<"passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social", string>;
+    selectedCategory: "passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social" | "legal" | "compute" | "healthcare" | undefined;
+    CATEGORIES: ("passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social" | "legal" | "compute" | "healthcare")[];
+    CATEGORY_MAP: Record<"passthrough" | "hris" | "ats" | "auth" | "saml" | "crm" | "enrich" | "martech" | "ticketing" | "uc" | "accounting" | "storage" | "commerce" | "payment" | "genai" | "messaging" | "kms" | "task" | "scim" | "lms" | "repo" | "metadata" | "calendar" | "verification" | "ads" | "analytics" | "forms" | "shipping" | "assessment" | "signing" | "clubs" | "datastore" | "cdp" | "performance" | "social" | "legal" | "compute" | "healthcare", string>;
 }, {
+    filterCategories(): string[];
     API_URL(): string;
     resolvedTheme(): UnifiedTheme;
     themeClass(): string;
